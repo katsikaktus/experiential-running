@@ -2,6 +2,8 @@ import { Button,TouchableOpacity, StyleSheet, FlatList, Image, Text, View } from
 import tw from "twrnc";
 import { Icon } from "@rneui/base";
 import { useNavigation } from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
+
 
 import React from 'react'
 
@@ -25,6 +27,7 @@ const data = [
 
 const NavOptions = () => {
     const navigation = useNavigation();
+    const dispatch = useDispatch();
 
   return (
     <FlatList
