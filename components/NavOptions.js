@@ -21,7 +21,7 @@ const data = [
         id: "2",
         title: "Map",
         icon: "map",
-        screen: "MapScreen"
+        screen: "MapTabNav"
 
     },
 ]

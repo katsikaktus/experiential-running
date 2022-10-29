@@ -5,11 +5,12 @@ import { calculatePace, pacePresentation, secondsToHm } from '../constants/calcu
 
 const HistoryRunCard = (props) => {
     
+    const navigation = useNavigation();
 
   return (
     <Pressable
       style={styles.mainContainer}
-      onPress={() =>console.log()}>
+      onPress={() => navigation.navigate("PreviousMapRunSummary")}>
       {/* Inner Container 1 */}
       <View style={styles.innerContainer1}>
         {/* Image */}

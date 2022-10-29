@@ -1,14 +1,13 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import tw from "twrnc"
-import Map from '../components/Map'
-import ActiveMapScreen from './ActiveMapScreen'
-import HistoryMapScreen from './HistoryMapScreen'
+import ActiveMapScreen from '../screens/ActiveMapScreen'
+import HistoryMapScreen from '../screens/HistoryMapScreen'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
 
 
-const MapScreen = () => {
+const MapTabNav = () => {
   const Tab = createMaterialTopTabNavigator();
 
 
@@ -27,6 +26,6 @@ const MapScreen = () => {
   );
 };
 
-export default MapScreen
+export default MapTabNav
 
 const styles = StyleSheet.create({})
