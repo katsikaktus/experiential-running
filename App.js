@@ -3,6 +3,8 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Provider } from 'react-redux';
 import HomeScreen from './screens/HomeScreen';
 import MapScreen from './screens/MapScreen';
+import StatusScreen from './screens/StatusScreen';
+
 
 import { store } from "./store";
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -27,6 +29,10 @@ export default function App() {
               headerShown: false,}}
             />
             <Stack.Screen name="MapScreen" component={MapScreen}
+            options={{
+              headerShown: false,}}
+            />
+            <Stack.Screen name="StatusScreen" component={StatusScreen}
             options={{
               headerShown: false,}}
             />

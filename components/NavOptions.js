@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 
 
 import React from 'react'
+import colors from '../constants/colors';
 
 // Data array
 const data = [
@@ -27,7 +28,6 @@ const data = [
 
 const NavOptions = () => {
     const navigation = useNavigation();
-    const dispatch = useDispatch();
 
   return (
     <FlatList
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
         width: 120,
         height: 120,
         borderRadius: 120/2,
-        backgroundColor: '#95e1d3',
+        backgroundColor: colors.bubbleColor,
         margin: 20,
         alignItems: 'center'
     

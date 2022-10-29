@@ -2,29 +2,28 @@ import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import tw from "twrnc"
 import Map from '../components/Map'
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { useDispatch } from 'react-redux';
-import NavOptions from '../components/NavOptions';
-import {setOrigin } from '../slices/navSlice';
+import ActiveMapScreen from './ActiveMapScreen'
+import HistoryMapScreen from './HistoryMapScreen'
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+
 
 
 const MapScreen = () => {
-  const Stack = createNativeStackNavigator();
-  const dispatch = useDispatch();
-  
+  const Tab = createMaterialTopTabNavigator();
+
 
   return (
-    <View>
-      <View style={tw `h-1/2`}>
-        <Map />
-      </View>
-      
+      <Tab.Navigator style={tw `pt-11`}>
+        <Tab.Screen name="ActiveMapScreen" component={ActiveMapScreen} 
+        options={{
+          tabBarLabel: "Active",
+          tabBarLabelStyle:{fontWeight:"bold"}}}/>
 
-      <View style={tw `h-1/2`}>
-        
-      </View>
-        
-    </View>
+        <Tab.Screen name="HistoryMapScreen" component={HistoryMapScreen}
+        options={{
+          tabBarLabel: "History",
+          tabBarLabelStyle:{fontWeight:"bold"}}} />
+      </Tab.Navigator>
   );
 };
 
