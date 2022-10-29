@@ -64,6 +64,8 @@ const ActiveMapScreen = () => {
       {/* pointerEvents="none" freezes the map */}
       <View style={styles.container} pointerEvents="none">
         <MapView 
+        
+        
           initialRegion={{
               latitude: 59.32487,
               longitude: 18.07221,
@@ -184,18 +186,21 @@ const styles = StyleSheet.create({
     fontSize: 28, 
     color: colors.mapRunScreenText, 
     fontWeight: 'bold',
-    alignSelf: 'center',},
+    alignSelf: 'center',
+  },
 
   startButtonContainer: {
     height: 70,
     width: 150,
     backgroundColor: colors.startButton,
     borderColor: colors.startButton,
-    padding: 12,
+    paddingTop: 16,
     borderWidth: 1,
-    borderRadius: 28,
+    borderRadius: 40,
     marginTop: 6,
     marginBottom: 6,
+
+    alignItems: 'center',
   },
 
 })

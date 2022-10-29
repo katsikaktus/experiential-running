@@ -3,9 +3,15 @@
 export default colors = {
     // Map Run Screen
     startButton: '#9B77DA',
-    toggleButtonBorder: '#ccc',
+    toggleButtonBorder: '#fff',
     toggleButtonBackground: '#fff',
     mapRunScreenText: '#fff',
+
+    // History Run Screen
+    cardBackground: '#ffffff',
+    cardHeading: '#070707',
+    cardSubHeading: '#777777',
+    cardMetric: '#8d8d8d',
 
 
     // HomeScreen
