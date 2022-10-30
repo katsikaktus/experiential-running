@@ -4,6 +4,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import HomeScreen from '../screens/HomeScreen';
 import MapTabNav from './MapTabNav';
+import MapRunningNav from './MapRunningNav';
 import StatusScreen from '../screens/StatusScreen';
 import PreviousMapRunSummary from '../screens/PreviousMapRunSummary';
 import Fontisto from 'react-native-vector-icons/Fontisto';
@@ -22,14 +23,19 @@ const HomePageNav = () => {
             options={{
               headerShown: false,}}
             />
-            <Stack.Screen name="MapTabNav" component={MapTabNav}
-            options={{
-              headerShown: false,}}
-            />
             <Stack.Screen name="StatusScreen" component={StatusScreen}
             options={{
               headerShown: false,}}
             />
+            <Stack.Screen name="MapTabNav" component={MapTabNav}
+            options={{
+              headerShown: false,}}
+            />
+            <Stack.Screen name="MapRunningNav" component={MapRunningNav}
+            options={{
+              headerShown: false,}}
+            />
+            
             <Stack.Screen name="PreviousMapRunSummary" component={PreviousMapRunSummary}
             options={{
               headerTitle: "Summary",

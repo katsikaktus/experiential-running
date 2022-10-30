@@ -1,10 +1,13 @@
 import { Pressable, StyleSheet, Text, View, TextInput, KeyboardAvoidingView} from 'react-native'
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import tw from "twrnc"
 import Map from '../components/Map'
 import colors from '../constants/colors'
 import { validateInput } from '../constants/distanceInputValidation'
+import {useNavigation} from '@react-navigation/native';
 import GeoLocation from 'react-native-geolocation-service';
+import * as Location from 'expo-location';
+
 
 import MapView, {Circle} from 'react-native-maps';
 
@@ -15,9 +18,9 @@ const ActiveMapScreen = () => {
   const interval = useRef(null);
   const mapRef = useRef(null);
 
+   // Initialize navigation hook
+   const navigation = useNavigation();
 
-  // Initialize navigation hook
-  //const navigation = useNavigation();
 
   // States:
   // 1. For metric value
@@ -29,6 +32,30 @@ const ActiveMapScreen = () => {
 
   // 4. Keeping track of position (lat and long)
   const [position, setPosition] = useState(null);
+
+  const [errorMsg, setErrorMsg] = useState(null);
+
+  const getLocation = async () => {
+
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== 'granted') {
+      setErrorMsg('Permission to access location was denied');
+      return;
+    }
+
+    let location = await Location.getCurrentPositionAsync({});
+    setPosition(location);
+    
+  }
+
+  useEffect(() => {
+    navigation.addListener('focus', event => {
+      interval.current = setInterval(() => getLocation(), 30000);
+      getLocation();
+    });
+
+    return () => clearInterval(interval.current);
+  }, [navigation]);
 
 
   const changeMetricValueHandler = input => {
@@ -68,9 +95,9 @@ const ActiveMapScreen = () => {
         <MapView 
         
         
-          initialRegion={{
-              latitude: 59.32487,
-              longitude: 18.07221,
+          region={{
+              latitude:position?.coords.latitude || 59.32487,
+              longitude:position?.coords.longitude || 18.07221,
               latitudeDelta: 0.0922,
               longitudeDelta: 0.0421,
             }} 
@@ -78,8 +105,8 @@ const ActiveMapScreen = () => {
             style={{flex:1, opacity: 0.3}}>
             <Circle
               center={{
-                latitude: 59.32487,
-                longitude: 18.07221,
+                latitude:position?.coords.latitude || 59.32487,
+                longitude:position?.coords.longitude || 18.07221,
               }}
               radius={3}
               fillColor="red"
@@ -109,7 +136,10 @@ const ActiveMapScreen = () => {
         {/* Bottom navigation */}
         <View style={styles.bottomContainer}>
           <Pressable
-            onPress = {() => console.log ("run")}
+            onPress = {() => 
+            navigation.navigate("MapRunningNav", {
+              screen: "ActiveMapRunningScreen"
+            })}
             style={styles.startButtonContainer}>
             <Text style={styles.startButtonTitle}> RUN </Text>
           </Pressable>
@@ -125,9 +155,7 @@ const ActiveMapScreen = () => {
 
     </KeyboardAvoidingView>
 
-    
-  
-    
+
   )
 }
 
