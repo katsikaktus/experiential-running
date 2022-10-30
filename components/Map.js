@@ -13,18 +13,35 @@ import { selectOrigin } from '../slices/navSlice'
 const Map = () => {
 
   const mapRef = useRef(null);
+   const [position, setPosition] = useState(null);
+
 
 
 
    return(
-    <MapView  
-      ref={mapRef}
-      style={tw `flex-1`}
-      mapType="mutedStandard"
-  
-    >
-
-    </MapView>
+    <View style={styles.container} pointerEvents="none">
+        <MapView 
+        
+        
+          region={{
+              latitude:position?.coords.latitude || 59.32487,
+              longitude:position?.coords.longitude || 18.07221,
+              latitudeDelta: 0.0922,
+              longitudeDelta: 0.0421,
+            }} 
+            minZoomLevel={18}
+            style={{flex:1, opacity: 0.3}}>
+            <Circle
+              center={{
+                latitude:position?.coords.latitude || 59.32487,
+                longitude:position?.coords.longitude || 18.07221,
+              }}
+              radius={3}
+              fillColor="red"
+            />
+            </MapView>
+          
+      </View>
    )
 }
 

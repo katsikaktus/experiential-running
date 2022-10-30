@@ -9,14 +9,13 @@ import GeoLocation from 'react-native-geolocation-service';
 import * as Location from 'expo-location';
 
 
-import MapView, {Circle} from 'react-native-maps';
+import MapView, {Circle, Marker} from 'react-native-maps';
 
 
 const ActiveMapScreen = () => {
 
   // Ref for interval
   const interval = useRef(null);
-  const mapRef = useRef(null);
 
    // Initialize navigation hook
    const navigation = useNavigation();
@@ -44,6 +43,7 @@ const ActiveMapScreen = () => {
     }
 
     let location = await Location.getCurrentPositionAsync({});
+      
     setPosition(location);
     
   }
@@ -91,8 +91,9 @@ const ActiveMapScreen = () => {
 
       {/* Google maps */}
       {/* pointerEvents="none" freezes the map */}
-      <View style={styles.container} pointerEvents="none">
+      <View style={styles.container} >
         <MapView 
+          mapType="mutedStandard"
         
         
           region={{
@@ -101,16 +102,16 @@ const ActiveMapScreen = () => {
               latitudeDelta: 0.0922,
               longitudeDelta: 0.0421,
             }} 
-            minZoomLevel={18}
+            //minZoomLevel={18}
             style={{flex:1, opacity: 0.3}}>
-            <Circle
-              center={{
-                latitude:position?.coords.latitude || 59.32487,
-                longitude:position?.coords.longitude || 18.07221,
-              }}
-              radius={3}
-              fillColor="red"
-            />
+              <Marker
+                coordinate={{
+                    latitude:position?.coords.latitude || 59.32487,
+                    longitude:position?.coords.longitude || 18.07221,
+                }}
+                
+                />
+            
             </MapView>
           
       </View>
