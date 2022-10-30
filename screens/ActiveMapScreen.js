@@ -103,7 +103,7 @@ const ActiveMapScreen = () => {
               longitudeDelta: 0.0421,
             }} 
             //minZoomLevel={18}
-            style={{flex:1, opacity: 0.3}}>
+            style={{flex:1, opacity: 1}}>
               <Marker
                 coordinate={{
                     latitude:position?.coords.latitude || 59.32487,
