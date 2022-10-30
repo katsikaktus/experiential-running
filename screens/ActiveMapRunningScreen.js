@@ -3,13 +3,19 @@ import React, {useCallback, useEffect, useRef, useState}from 'react'
 import {useNavigation} from '@react-navigation/native';
 import * as Location from 'expo-location';
 import MapView, {Circle, Marker} from 'react-native-maps';
+import { useDispatch, useSelector } from 'react-redux';
+
 import { calDistance, secondsToHm, calculatePace, pacePresentation, } from '../constants/calculations';
-
-
+import { setTotalTime, setTotalDistance, selectTotalTime, selectTotalDistance } from '../slices/runSlice';
 
 const ActiveMapRunningScreen = () => {
     const watchId = useRef(null);
     const navigation = useNavigation();
+    const dispatch = useDispatch();
+
+    let totalTime = useSelector(selectTotalTime);
+    let totalDistance = useSelector(selectTotalDistance);
+
 
 
     // This state keeps check whether the screen is in focus or not
@@ -30,8 +36,6 @@ const ActiveMapRunningScreen = () => {
 
         let oldLocation = null;
         let oldTime = null;
-        let totalDistance = null;
-        let totalTime = null;
         // updates will only occur while the application is in the foreground.
         watchId.current = await Location.watchPositionAsync(
                 {   
@@ -65,8 +69,21 @@ const ActiveMapRunningScreen = () => {
                     totalDistance = totalDistance + parseInt(newDistance);
                     setMetricValue(totalDistance);
                     totalTime = totalTime + newTime;
+                    console.log("total time", totalTime)
                     oldLocation = position
                     setPosition(position)
+                    dispatch(
+                        setTotalTime({
+                            time: totalTime
+                        }),
+
+                    )
+                    dispatch(
+                        setTotalDistance({
+                            distance: totalDistance
+                        })
+                    
+                    )
 
                 },
                 

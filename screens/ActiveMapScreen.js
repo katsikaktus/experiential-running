@@ -7,6 +7,8 @@ import { validateInput } from '../constants/distanceInputValidation'
 import {useNavigation} from '@react-navigation/native';
 import GeoLocation from 'react-native-geolocation-service';
 import * as Location from 'expo-location';
+import { useDispatch } from 'react-redux';
+
 
 
 import MapView, {Circle, Marker} from 'react-native-maps';
@@ -17,8 +19,10 @@ const ActiveMapScreen = () => {
   // Ref for interval
   const interval = useRef(null);
 
-   // Initialize navigation hook
-   const navigation = useNavigation();
+  // Initialize navigation hook
+  const navigation = useNavigation();
+
+  const dispatch = useDispatch();
 
 
   // States:
