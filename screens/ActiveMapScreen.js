@@ -4,6 +4,8 @@ import tw from "twrnc"
 import Map from '../components/Map'
 import colors from '../constants/colors'
 import { validateInput } from '../constants/distanceInputValidation'
+import GeoLocation from 'react-native-geolocation-service';
+
 import MapView, {Circle} from 'react-native-maps';
 
 

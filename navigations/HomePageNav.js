@@ -6,7 +6,8 @@ import HomeScreen from '../screens/HomeScreen';
 import MapTabNav from './MapTabNav';
 import StatusScreen from '../screens/StatusScreen';
 import PreviousMapRunSummary from '../screens/PreviousMapRunSummary';
-import ActiveMapScreen from '../screens/ActiveMapScreen';
+import Fontisto from 'react-native-vector-icons/Fontisto';
+import {Pressable} from 'react-native';
 
 
 const HomePageNav = () => {
@@ -31,7 +32,14 @@ const HomePageNav = () => {
             />
             <Stack.Screen name="PreviousMapRunSummary" component={PreviousMapRunSummary}
             options={{
-              headerShown: false,}}
+              headerTitle: "Summary",
+              headerStyle: {backgroundColor: colors.summaryHeader},
+              headerRight: () => (
+                <Pressable onPress={() => alert('Share this run')}>
+                  <Fontisto name="share" size={20} style={{marginRight: 12}} />
+                </Pressable>
+              ),
+            }}
             />
           </Stack.Navigator>
 
