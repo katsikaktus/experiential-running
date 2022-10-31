@@ -9,6 +9,8 @@ import StatusScreen from '../screens/StatusScreen';
 import PreviousMapRunSummary from '../screens/PreviousMapRunSummary';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import {Pressable} from 'react-native';
+import GhostRunScreen from '../screens/GhostRunScreen';
+import SightseeingRunScreen from '../screens/SightseeingRunScreen';
 
 
 const HomePageNav = () => {
@@ -47,6 +49,17 @@ const HomePageNav = () => {
               ),
             }}
             />
+
+          <Stack.Screen name="GhostRunScreen" component={GhostRunScreen}
+          options={{
+            headerTitle: "Ghost Run"
+          }}/>
+
+          <Stack.Screen name="SightseeingRunScreen" component={SightseeingRunScreen}
+          options={{
+            headerTitle: "Sightseeing Run"
+          }}/>
+
           </Stack.Navigator>
 
         </SafeAreaProvider>

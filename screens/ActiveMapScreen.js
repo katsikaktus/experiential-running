@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View, TextInput, KeyboardAvoidingView} from 'react-native'
+import { Pressable, StyleSheet, Image, Text, View, TextInput, KeyboardAvoidingView} from 'react-native'
 import React, { useState, useRef, useEffect } from 'react'
 
 import colors from '../constants/colors'
@@ -7,14 +7,21 @@ import {useNavigation} from '@react-navigation/native';
 import * as Location from 'expo-location';
 import { useDispatch } from 'react-redux';
 
-
-
 import MapView, {Circle, Marker} from 'react-native-maps';
 import MapLocation from '../components/MapLocation';
 import { setLocation, selectLocation } from '../slices/runSlice';
+import ghost_icon from "../assets/ghost_icon.png"
+import tower_icon from "../assets/tower_icon.png"
+
 
 
 const ActiveMapScreen = () => {
+
+  const CHANGE_TIME_PROMPT = "Change to time goal"
+  const CHANGE_DISTANCE_PROMPT = "Change to distance goal"
+  const SET_TIME_PROMPT = "Set timer (HH:MM)"
+  const SET_DISTANCE_PROMPT = "Set distance (km)"
+
 
   // Ref for interval
   const interval = useRef(null);
@@ -29,9 +36,9 @@ const ActiveMapScreen = () => {
   // 1. For metric value
   const [metricValue, setMetricValue] = useState('1.0');
   // 2. Toggling
-  const [Toggle, setToggle] = useState('Distance');
+  const [Toggle, setToggle] = useState(CHANGE_TIME_PROMPT);
   // 3. Metric Unit
-  const [MetricUnit, setMetricUnit] = useState('Kilometers');
+  const [MetricUnit, setMetricUnit] = useState(SET_DISTANCE_PROMPT);
 
   // 4. Keeping track of position (lat and long)
   const [position, setPosition] = useState(null);
@@ -84,13 +91,13 @@ const ActiveMapScreen = () => {
 
   // Toggle Function
   const toggleHandler = () => {
-    if (Toggle == 'Distance') {
-      setToggle('Time');
-      setMetricUnit('Hours : Minutes');
+    if (Toggle == CHANGE_TIME_PROMPT) {
+      setToggle(CHANGE_DISTANCE_PROMPT);
+      setMetricUnit(SET_TIME_PROMPT);
       setMetricValue('01:00');
     } else {
-      setToggle('Distance');
-      setMetricUnit('Kilometers');
+      setToggle(CHANGE_TIME_PROMPT);
+      setMetricUnit(SET_DISTANCE_PROMPT);
       setMetricValue('1.0');
     }
   };
@@ -102,29 +109,47 @@ const ActiveMapScreen = () => {
      style={styles.container}>
 
       {/* Google maps */}
-      {/* pointerEvents="none" freezes the map */}
       <MapLocation/>
-        
-
+    
       <View style={{
-        position:"absolute",
-        bottom: 0,
-        right: 0,
-        ...styles.mainContainer
+          position:"absolute",
+          bottom: 0,
+          right: 0,
+          ...styles.mainContainer
         }}>
         {/* Set the distance or time to run */}
-        <View>
-            <TextInput
-              style={styles.metricValue}
-              keyboardType="decimal-pad"
-              value={metricValue}
-              onChangeText={changeMetricValueHandler}
-            />
-            <Text style={styles.metricUnit}>{MetricUnit}</Text>
+    
+        <View style={styles.topContainer}>
+          <Pressable 
+              onPress = {toggleHandler}
+              style={styles.toggleContainer}>
+              <Text style={styles.toggleTitle}>{Toggle}</Text>
+            </Pressable> 
+          <TextInput
+            style={styles.metricValue}
+            keyboardType="decimal-pad"
+            value={metricValue}
+            onChangeText={changeMetricValueHandler}
+          />
+          <Text style={styles.metricUnit}>{MetricUnit}</Text>
         </View>
+         
+        
         
         {/* Bottom navigation */}
         <View style={styles.bottomContainer}>
+          
+          <Pressable
+            onPress = {() => 
+              navigation.navigate("SightseeingRunScreen")}>
+            <View style= {{
+              backgroundColor: colors.sightseeingButton,
+              ...styles.squareShapeView}}>
+              <Image source={tower_icon} style={{ width: 29, height: 50, alignSelf:"center", marginTop:14}} />
+            </View>
+
+          </Pressable>
+
           <Pressable
             onPress = {() => 
             navigation.navigate("MapRunningNav", {
@@ -135,11 +160,25 @@ const ActiveMapScreen = () => {
           </Pressable>
 
           <Pressable 
-            onPress = {toggleHandler}
-            style={styles.toggleContainer}>
-            <Text style={styles.toggleTitle}>{Toggle}</Text>
-          </Pressable>  
+          onPress = {() => 
+            navigation.navigate("GhostRunScreen")}>
+
+            <View style= {{
+              backgroundColor: colors.ghostRunInitialButton,
+              ...styles.squareShapeView}}>
+              <Image source={ghost_icon} style={{ width: 40, height: 38, alignSelf:"center", marginTop:20 }} />
+            </View>
+            
+
+          </Pressable>
+
+          
+
+
+          
         </View>
+
+    
 
       </View>
 
@@ -164,14 +203,20 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
   },
 
+  topContainer: {
+    justifyContent: 'space-between', 
+    alignItems: 'center'
+  },
+
   metricValue: {
-    fontSize: 52,
-    fontWeight: 'bold',
+    fontSize: 48,
+    //fontWeight: 'bold',
     borderBottomWidth: 2,
     marginBottom: 4,
     alignSelf: 'center',
     flexShrink: 1,
     color: '#000',
+    
   },
 
   metricUnit: {
@@ -180,27 +225,31 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
 
-
-  
-
   toggleContainer: {
+
     height: 46,
-    width: 100,
+    width: 220,
     padding: 12,
-    borderWidth: 2,
     borderRadius: 28,
     borderColor: colors.toggleButtonBorder,
-    marginTop: 28,
-    marginBottom: 6,
+    marginTop: 12,
+    marginBottom: 12,
+    marginLeft: 6,
     backgroundColor: colors.toggleButtonBackground,
+    
   },
 
-  toggleTitle: {fontSize: 16, fontWeight: 'bold', alignSelf: 'center',},
+  toggleTitle: {fontSize: 16, fontWeight: 'bold', alignSelf: 'center', color:colors.startRunButton},
 
 
   bottomContainer: {
     justifyContent: 'space-between', 
-    alignItems: 'center'},
+    alignItems: 'center',
+    flexDirection: 'row',
+    
+  },
+
+ 
 
   startButtonTitle: {
     fontSize: 28, 
@@ -210,23 +259,29 @@ const styles = StyleSheet.create({
   },
 
   startButtonContainer: {
-    height: 70,
-    width: 150,
-    backgroundColor: colors.startButton,
-    borderColor: colors.startButton,
-    paddingTop: 16,
+    height: 79,
+    width: 162,
+    backgroundColor: colors.startRunButton,
+    borderColor: colors.startRunButton,
+    paddingTop: 22,
     borderWidth: 1,
     borderRadius: 40,
     marginTop: 6,
-    marginBottom: 6,
-
+    marginBottom: 32,
+    marginLeft: 12,
+    marginRight: 12,
     alignItems: 'center',
   },
 
+  squareShapeView: {
+    width: 73,
+    height: 79,
+    alignItems: 'center',
+    borderRadius: 20,
+    marginTop: 6,
+    marginBottom: 32,
+
+  }
+
 })
 
-
-/*<View style={tw `h-full`}>
-        <Map />
-        
-</View>*/
