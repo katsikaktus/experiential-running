@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 
 const initialState = {
+      position: null,
       currentRun: {
         distance: 0,
         time: 0,
@@ -22,6 +23,11 @@ export const runSlice = createSlice({
     // state - current state
     // action - when I make that dispatch from the component to the
     // data layout
+    setLocation: (state, action) => {
+      // payload - information inside an action
+      state.position = action.payload;
+      console.log("save position", state.position)
+    },
     setTotalTime: (state, action) => {
         // payload - information inside an action
         state.currentRun.time = action.payload;
@@ -32,18 +38,19 @@ export const runSlice = createSlice({
         state.currentRun.distance = action.payload;
         console.log("save total distance")
     },
-   
+  
     
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setTotalTime, setTotalDistance } = 
+export const { setLocation, setTotalTime, setTotalDistance } = 
 runSlice.actions;
 
 // Selectors - pull information from the data layout
 // One selector for each item in the initialState
 // direct return - arrow function
+export const selectLocation = (state) => state.runMap.position;
 export const selectTotalTime = (state) => state.runMap.currentRun.time;
 export const selectTotalDistance = (state) => state.runMap.currentRun.distance;
 

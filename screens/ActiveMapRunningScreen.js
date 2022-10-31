@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { calDistance, secondsToHm, calculatePace, pacePresentation, } from '../constants/calculations';
 import { setTotalTime, setTotalDistance, selectTotalTime, selectTotalDistance } from '../slices/runSlice';
+import MapRunning from '../components/MapRunning';
 
 const ActiveMapRunningScreen = () => {
     const watchId = useRef(null);
@@ -127,33 +128,7 @@ const ActiveMapRunningScreen = () => {
     <KeyboardAvoidingView
      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
      style={styles.container}>
-        <View style={styles.container} pointerEvents="none">
-        <MapView 
-            ref={watchId}
-            region={{
-                latitude:position?.coords.latitude || 59.32487,
-                longitude:position?.coords.longitude || 18.07221,
-                latitudeDelta: 0.0922,
-                longitudeDelta: 0.0421,
-            }}
-            minZoomLevel={18}
-            style={{flex:1, opacity: 1}}>
-            
-            {position?.coords && (
-                <Circle
-                center={{
-                    latitude:position?.coords.latitude || 59.32487,
-                    longitude:position?.coords.longitude || 18.07221,
-                }}
-                radius={3}
-                fillColor="red"
-                /> 
-            )}
-                    
-        </MapView>
-      
-    </View>
-
+       <MapRunning/>
      </KeyboardAvoidingView>
     
   )

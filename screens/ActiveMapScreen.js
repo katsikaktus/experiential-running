@@ -1,17 +1,17 @@
 import { Pressable, StyleSheet, Text, View, TextInput, KeyboardAvoidingView} from 'react-native'
 import React, { useState, useRef, useEffect } from 'react'
-import tw from "twrnc"
-import Map from '../components/Map'
+
 import colors from '../constants/colors'
 import { validateInput } from '../constants/distanceInputValidation'
 import {useNavigation} from '@react-navigation/native';
-import GeoLocation from 'react-native-geolocation-service';
 import * as Location from 'expo-location';
 import { useDispatch } from 'react-redux';
 
 
 
 import MapView, {Circle, Marker} from 'react-native-maps';
+import MapLocation from '../components/MapLocation';
+import { setLocation, selectLocation } from '../slices/runSlice';
 
 
 const ActiveMapScreen = () => {
@@ -49,6 +49,13 @@ const ActiveMapScreen = () => {
     let location = await Location.getCurrentPositionAsync({});
       
     setPosition(location);
+    console.log("current location", location)
+    dispatch(
+      setLocation({
+          position: location
+      }),
+
+    )
     
   }
 
@@ -56,6 +63,7 @@ const ActiveMapScreen = () => {
     navigation.addListener('focus', event => {
       interval.current = setInterval(() => getLocation(), 30000);
       getLocation();
+      
     });
 
     return () => clearInterval(interval.current);
@@ -95,30 +103,7 @@ const ActiveMapScreen = () => {
 
       {/* Google maps */}
       {/* pointerEvents="none" freezes the map */}
-      <View style={styles.container} >
-        <MapView 
-          mapType="mutedStandard"
-        
-        
-          region={{
-              latitude:position?.coords.latitude || 59.32487,
-              longitude:position?.coords.longitude || 18.07221,
-              latitudeDelta: 0.0922,
-              longitudeDelta: 0.0421,
-            }} 
-            //minZoomLevel={18}
-            style={{flex:1, opacity: 1}}>
-              <Marker
-                coordinate={{
-                    latitude:position?.coords.latitude || 59.32487,
-                    longitude:position?.coords.longitude || 18.07221,
-                }}
-                
-                />
-            
-            </MapView>
-          
-      </View>
+      <MapLocation/>
         
 
       <View style={{
