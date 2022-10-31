@@ -22,6 +22,9 @@ export default colors = {
     playButton: "#59CD4F",
     stopButton: "#F57D7D",
     pauseButton: "#F5A17D",
+
+    mapPointerCircle: '#9B77DA',
+    mapPointerPin: '#9B77DA',
     
 
     // History Run Screen

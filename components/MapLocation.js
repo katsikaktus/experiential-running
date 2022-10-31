@@ -3,6 +3,7 @@ import React from 'react'
 import MapView, { Marker } from 'react-native-maps';
 import { selectLocation } from '../slices/runSlice';
 import { useSelector } from 'react-redux';
+import colors from '../constants/colors';
 
 
 
@@ -29,6 +30,7 @@ const MapLocation = () => {
                     latitude:position?.position.coords.latitude || 59.32487,
                     longitude:position?.position.coords.longitude || 18.07221,
                 }}
+                pinColor={colors.mapPointerPin}
                 
                 />
             
