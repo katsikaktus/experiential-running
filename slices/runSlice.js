@@ -26,18 +26,16 @@ export const runSlice = createSlice({
     setLocation: (state, action) => {
       // payload - information inside an action
       state.position = action.payload;
-      console.log("save position", state.position)
     },
     setTotalTime: (state, action) => {
-        // payload - information inside an action
-        state.currentRun.time = action.payload;
-        console.log("save total time", state.currentRun.time)
+      // payload - information inside an action
+      state.currentRun.time = action.payload;
     },
     setTotalDistance: (state, action) => {
-        // payload - information inside an action
-        state.currentRun.distance = action.payload;
-        console.log("save total distance",  state.currentRun.distance)
+      // payload - information inside an action
+      state.currentRun.distance = action.payload;
     },
+    
   
     
   },

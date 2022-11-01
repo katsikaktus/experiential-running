@@ -69,7 +69,7 @@ export const getDayName = () => {
   };
   
   // function to calculate pace
-  export const calculatePace = (dist, time_seconds) => {
+  export const calculatePace = (dist, delta_time) => {
 
     if (dist <= 0.001) {
       return 0;
@@ -84,9 +84,14 @@ export const getDayName = () => {
     timeElapsed += hrs * 60;
     timeElapsed += mins;
     timeElapsed += secs / 60;*/
-    time_seconds
-    const pace = time_seconds/ dist;
-    return pace;
+    console.log("lets see the time passed", delta_time)
+    console.log("lets see the distance passed", dist)
+
+    const pace = delta_time / 60000 / dist;
+
+    console.log("lets see the calculated pace", pace.toFixed(2))
+
+    return  pace.toFixed(2);
   };
   
   // Function to show pace value to user
@@ -95,8 +100,11 @@ export const getDayName = () => {
       return '0:00';
     }
     const paceMins = Math.floor(pace);
-    const paceSecs = (pace % 1).toFixed(2) * 60;
+    const paceSecs = Math.floor((pace % 1) * 60);
     pace = paceMins + ":" + paceSecs;
+
+    console.log("check", paceMins, paceSecs)
+
     return pace;
   };
   

@@ -3,6 +3,7 @@ import { Provider } from 'react-redux';
 import { store } from "./store";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomePageNav from './navigations/HomePageNav';
+import { RootSiblingParent } from 'react-native-root-siblings';
 
 
 export default function App() {
@@ -10,9 +11,12 @@ export default function App() {
   const Stack = createNativeStackNavigator();
 
   return (
-    <Provider store={store}>
-      <HomePageNav/>
-    </Provider>
+    <RootSiblingParent>
+      <Provider store={store}>
+        <HomePageNav/>
+      </Provider>
+    </RootSiblingParent>
+    
     
   );
 }

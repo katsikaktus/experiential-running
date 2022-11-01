@@ -2,7 +2,6 @@ import { StyleSheet, Text, View, KeyboardAvoidingView, Pressable, Alert } from '
 import React, {useCallback, useEffect, useRef, useState}from 'react'
 import {useNavigation} from '@react-navigation/native';
 import * as Location from 'expo-location';
-import MapView, {Circle, Marker} from 'react-native-maps';
 import { useDispatch, useSelector } from 'react-redux';
 
 import colors from '../constants/colors'
@@ -41,6 +40,7 @@ const ActiveMapRunningScreen = ({route}) => {
     // Target value set by the user
     const [targetValue, setTargetValue] = useState('0.0');
 
+  
     useEffect(()=> navigation.addListener("beforeRemove", event=>{
 
         event.preventDefault();
@@ -85,10 +85,9 @@ const ActiveMapRunningScreen = ({route}) => {
                     let newTime;
                     if (oldLocation == null) {
                         newDistance = '0.0';
-                        totalDistance = 0.0;
+                        //totalDistance = 0.0;
                         newTime = 0;
-                        totalTime = 0;
-                        newTime = 0
+                        //totalTime = 0;
                         oldTime = position.timestamp
                     } else {
                         newDistance = calDistance(
@@ -97,7 +96,7 @@ const ActiveMapRunningScreen = ({route}) => {
                             position.coords.latitude,
                             position.coords.longitude,
                         );
-                        // change to timestamp
+                        // change to timestamp given in seconds
                         newTime = position.timestamp - oldTime
                     }
                     totalDistance = totalDistance + parseFloat(newDistance);
@@ -105,6 +104,8 @@ const ActiveMapRunningScreen = ({route}) => {
                     totalTime = totalTime + newTime;
                     setElapsedTimeValue(secondsToHm(totalTime))
                     setCurrentPace(pacePresentation(calculatePace(newDistance, newTime)));
+                    //setAveragePace(pacePresentation(calculatePace(totalDistance, totalTime)));
+
                     oldTime = position.timestamp
                     oldLocation = position
                     setPosition(position)
@@ -181,9 +182,7 @@ const ActiveMapRunningScreen = ({route}) => {
             
 
 
-            {/* Progress bar */}
             <View style={styles.innerContainers}>
-
 
                 <View style= {{
                     backgroundColor: colors.timeView,
@@ -240,7 +239,8 @@ const ActiveMapRunningScreen = ({route}) => {
                     icon={{name: 'pause'}}
                     onPress={() =>
                         navigation.navigate('Pause', {
-                        progressPercentage: progress,
+                        currentPace: currentPace,
+                        averagePace: averagePace
                         })
                     }
                     activeOpacity={0.7}
