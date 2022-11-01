@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, KeyboardAvoidingView, Pressable } from 'react-native'
+import { StyleSheet, Text, View, KeyboardAvoidingView, Pressable, Alert } from 'react-native'
 import React, {useCallback, useEffect, useRef, useState}from 'react'
 import {useNavigation} from '@react-navigation/native';
 import * as Location from 'expo-location';
@@ -7,15 +7,17 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import colors from '../constants/colors'
 import { calDistance, secondsToHm, calculatePace, pacePresentation, } from '../constants/calculations';
-import { setTotalTime, setTotalDistance, selectTotalTime, selectTotalDistance } from '../slices/runSlice';
+import { setLocation, setTotalTime, setTotalDistance, selectLocation, selectTotalTime, selectTotalDistance } from '../slices/runSlice';
 import MapRunning from '../components/MapRunning';
 import { Avatar } from '@rneui/base';
 
 
-const ActiveMapRunningScreen = () => {
+const ActiveMapRunningScreen = ({route}) => {
     const watchId = useRef(null);
     const navigation = useNavigation();
     const dispatch = useDispatch();
+    // Getting the passed parameters from the ActiveMapScreen 
+    const props = route.params;
 
     let totalTime = useSelector(selectTotalTime);
     let totalDistance = useSelector(selectTotalDistance);
@@ -27,13 +29,38 @@ const ActiveMapRunningScreen = () => {
     const [position, setPosition] = useState(null);
     const [metricValue, setMetricValue] = useState('0.0');
 
-    const [metric, setMetric] = useState('Kilometers');
-
+    const [coveredDistanceValue, setCoveredDistanceValue] = useState('0.00');
+    const [elapsedTimeValue, setElapsedTimeValue] = useState('00:00:00');
+    
+    // not visually included so far
     const [progress, setProgress] = useState('0%');
-    const [currentPace, setCurrentPace] = useState('-\'--"');
-    const [calories, setCalories] = useState('--');
+    const [currentPace, setCurrentPace] = useState('0:00');
+    const [averagePace, setAveragePace] = useState('0:00');
+
+
     // Target value set by the user
     const [targetValue, setTargetValue] = useState('0.0');
+
+    useEffect(()=> navigation.addListener("beforeRemove", event=>{
+
+        event.preventDefault();
+
+      // Alert to confirm the user's action
+      Alert.alert(
+        'Discarding Run',
+        'Are you sure you want to discard this run?',
+        [
+          {text: 'No', style: 'cancel', onPress: () => {}},
+          {
+            text: 'Yes',
+            style: 'destructive',
+            onPress: () => navigation.dispatch(event.data.action),
+          },
+        ],
+      );
+
+        
+    }), [navigation])
 
     const getLocationUpdates = async () => {
         let { status } = await Location.requestForegroundPermissionsAsync();
@@ -48,13 +75,12 @@ const ActiveMapRunningScreen = () => {
         watchId.current = await Location.watchPositionAsync(
                 {   
                     accuracy:Location.Accuracy.High,
-                    timeInterval: 500,
+                    timeInterval: 100,
                     distanceInterval: 0
                 },
 
         
                 position => {
-                    console.log("insider", position);
                     let newDistance;
                     let newTime;
                     if (oldLocation == null) {
@@ -66,32 +92,41 @@ const ActiveMapRunningScreen = () => {
                         oldTime = position.timestamp
                     } else {
                         newDistance = calDistance(
-                        oldLocation.coords.latitude,
-                        oldLocation.coords.longitude,
-                        position.coords.latitude,
-                        position.coords.longitude,
+                            oldLocation.coords.latitude,
+                            oldLocation.coords.longitude,
+                            position.coords.latitude,
+                            position.coords.longitude,
                         );
                         // change to timestamp
                         newTime = position.timestamp - oldTime
                     }
-                    totalDistance = totalDistance + parseInt(newDistance);
-                    setMetricValue(totalDistance);
+                    totalDistance = totalDistance + parseFloat(newDistance);
+                    setCoveredDistanceValue(totalDistance.toFixed(2));
                     totalTime = totalTime + newTime;
-                    console.log("total time", totalTime)
+                    setElapsedTimeValue(secondsToHm(totalTime))
+                    setCurrentPace(pacePresentation(calculatePace(newDistance, newTime)));
+                    oldTime = position.timestamp
                     oldLocation = position
                     setPosition(position)
                     dispatch(
                         setTotalTime({
-                            time: totalTime
+                            time: secondsToHm(totalTime)
                         }),
 
                     )
                     dispatch(
                         setTotalDistance({
-                            distance: totalDistance
+                            distance: totalDistance.toFixed(2)
                         })
                     
                     )
+
+                    dispatch(
+                        setLocation({
+                            position: position
+                        }),
+                  
+                      )
 
                 },
                 
@@ -106,6 +141,7 @@ const ActiveMapRunningScreen = () => {
     const removeLocationUpdates = async () => {
         if (watchId.current !== null) {
             watchId.current.remove();
+            watchId.current = null;
         }
     };
 
@@ -154,7 +190,7 @@ const ActiveMapRunningScreen = () => {
                     ...styles.timeShapeView}}>
                     {/* Elapsed time */}
                     <View style={styles.metricContainer}>
-                        <Text style={styles.metricValue}>{metricValue}</Text>
+                        <Text style={styles.metricValue}>{elapsedTimeValue}</Text>
                         <Text style={styles.metric}>ELAPSED TIME (HH:MM:SS)</Text>
                     </View>
 
@@ -165,7 +201,7 @@ const ActiveMapRunningScreen = () => {
                     ...styles.distanceShapeView}}>
                     {/* Covered distance */}
                     <View style={styles.metricContainer}>
-                        <Text style={styles.metricValue}>{metricValue}</Text>
+                        <Text style={styles.metricValue}>{coveredDistanceValue}</Text>
                         <Text style={styles.metric}>DISTANCE (KM)</Text>
                     </View>
 
@@ -189,7 +225,7 @@ const ActiveMapRunningScreen = () => {
                         ...styles.paceShapeView}}>
                         {/* Averagege Pace */}
                         <View style={styles.metricContainer}>
-                            <Text style={styles.metricValue}>{currentPace}</Text>
+                            <Text style={styles.metricValue}>{averagePace}</Text>
                             <Text style={styles.metric}>AVERAGE PACE</Text>
                         </View>
 
@@ -204,7 +240,6 @@ const ActiveMapRunningScreen = () => {
                     icon={{name: 'pause'}}
                     onPress={() =>
                         navigation.navigate('Pause', {
-                        calories: calories,
                         progressPercentage: progress,
                         })
                     }

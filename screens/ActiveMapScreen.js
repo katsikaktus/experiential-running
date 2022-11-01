@@ -19,11 +19,13 @@ const ActiveMapScreen = () => {
 
   const CHANGE_TIME_PROMPT = "Change to time goal"
   const CHANGE_DISTANCE_PROMPT = "Change to distance goal"
-  const SET_TIME_PROMPT = "Set timer (HH:MM)"
+  const SET_TIME_PROMPT = "Hours : Minutes"
+
+  //const SET_TIME_PROMPT = "Set timer (HH:MM)"
   const SET_DISTANCE_PROMPT = "Set distance (km)"
 
 
-  // Ref for interval
+  // Ref for interval to update the location
   const interval = useRef(null);
 
   // Initialize navigation hook
@@ -56,7 +58,7 @@ const ActiveMapScreen = () => {
     let location = await Location.getCurrentPositionAsync({});
       
     setPosition(location);
-    console.log("current location", location)
+    //console.log("current location", location)
     dispatch(
       setLocation({
           position: location
@@ -66,6 +68,8 @@ const ActiveMapScreen = () => {
     
   }
 
+
+  // useEffect triggered whenever the screen is in focus
   useEffect(() => {
     navigation.addListener('focus', event => {
       interval.current = setInterval(() => getLocation(), 30000);
@@ -76,11 +80,20 @@ const ActiveMapScreen = () => {
     return () => clearInterval(interval.current);
   }, [navigation]);
 
+  // useEffect triggered whenever the screen is out of focus
+  useEffect(() => {
+    navigation.addListener('blur', event => {
+      clearInterval(interval.current);
+      interval.current = null;
+    });
+  }, [navigation]);
 
+  // TODO update this function
   const changeMetricValueHandler = input => {
     if (validateInput(input, Toggle)) {
       if (input[0] == '.' || input[0] == ':') {
         input = '0' + input;
+  
       }
       if (input[input.length - 1] == '.' || input[input.length - 1] == ':') {
         input = input + '0';
@@ -153,9 +166,12 @@ const ActiveMapScreen = () => {
           <Pressable
             onPress = {() => 
             navigation.navigate("MapRunningNav", {
-              screen: "ActiveMapRunningScreen"
+              screen: "Running",
+              params: {targetValue: metricValue, metric: Toggle},
+              
             })}
             style={styles.startButtonContainer}>
+          
             <Text style={styles.startButtonTitle}> RUN </Text>
           </Pressable>
 

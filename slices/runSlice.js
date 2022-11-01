@@ -31,12 +31,12 @@ export const runSlice = createSlice({
     setTotalTime: (state, action) => {
         // payload - information inside an action
         state.currentRun.time = action.payload;
-        console.log("save total time")
+        console.log("save total time", state.currentRun.time)
     },
     setTotalDistance: (state, action) => {
         // payload - information inside an action
         state.currentRun.distance = action.payload;
-        console.log("save total distance")
+        console.log("save total distance",  state.currentRun.distance)
     },
   
     

@@ -45,12 +45,15 @@ export const getDayName = () => {
   
     let finalDistance = RADIUS_OF_EARTH_IN_KM * c;
   
-    return finalDistance.toFixed(2);
+    return finalDistance.toFixed(3);
   };
+
+
+
   
   // Convert seconds to hours and minutes and seconds
   export const secondsToHm = seconds => {
-    seconds = Number(seconds);
+    seconds = Number(seconds / 1000 );
   
     var hours = Math.floor(seconds / 3600);
     var minutes = Math.floor((seconds % 3600) / 60);
@@ -67,11 +70,12 @@ export const getDayName = () => {
   
   // function to calculate pace
   export const calculatePace = (dist, time_seconds) => {
-    if (dist <= 0) {
+
+    if (dist <= 0.001) {
       return 0;
     }
     dist = parseFloat(dist);
-    time = secondsToHm(time_seconds);
+    /*time = secondsToHm(time_seconds);
     const hrs = parseInt(time.substring(0, 2));
     const mins = parseInt(time.substring(3, 5));
     const secs = parseInt(time.substring(6, 8));
@@ -79,19 +83,20 @@ export const getDayName = () => {
     var timeElapsed = 0;
     timeElapsed += hrs * 60;
     timeElapsed += mins;
-    timeElapsed += secs / 60;
-    const pace = timeElapsed / dist;
+    timeElapsed += secs / 60;*/
+    time_seconds
+    const pace = time_seconds/ dist;
     return pace;
   };
   
   // Function to show pace value to user
   export const pacePresentation = pace => {
     if (pace == 0) {
-      return '0\'0" ';
+      return '0:00';
     }
     const paceMins = Math.floor(pace);
-    const paceSecs = (pace % 1).toFixed(1) * 60;
-    pace = paceMins + "'" + paceSecs + '"';
+    const paceSecs = (pace % 1).toFixed(2) * 60;
+    pace = paceMins + ":" + paceSecs;
     return pace;
   };
   
