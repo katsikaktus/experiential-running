@@ -5,19 +5,54 @@ import MapRunning from '../components/MapRunning';
 import { useDispatch, useSelector } from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 
-import { setLocation, setTotalTime, setTotalDistance, selectLocation, selectTotalTime, selectTotalDistance } from '../slices/runSlice';
+import { selectCurrentRun, selectPreviousRun, saveRunToDatabase, setCurrentRun } from '../slices/runSlice';
 import { Avatar } from '@rneui/base';
 import Toast from 'react-native-root-toast';
+import { getDayName, getTimeOfDay } from '../constants/calculations';
+import { calDistance, secondsToHm, calculatePace, pacePresentation, } from '../constants/calculations';
 
 
 
 
 const PausedMapRunningScreen = ({route}) => {
-  const elapsedTimeValue = useSelector(selectTotalTime)
-  const coveredDistanceValue = useSelector(selectTotalDistance)
-  const navigation = useNavigation();
+  //const elapsedTimeValue = useSelector(selectTotalTime)
+  //const coveredDistanceValue = useSelector(selectTotalDistance)
 
+  const currentRun = useSelector(selectCurrentRun);
+
+  const previousRuns = useSelector(selectPreviousRun)
+
+  const dispatch = useDispatch();
+  const navigation = useNavigation()
   const {currentPace, averagePace} = route.params;
+
+  const saveRun = () => {
+    dispatch(
+      saveRunToDatabase({
+        day: getDayName(),
+        timeOfDay: getTimeOfDay(),
+        distance: currentRun.distance,
+        time: currentRun.time,
+      }),
+     
+    );
+    
+    navigation.reset({
+      index: 1,
+      routes: [
+        {name: 'MapTabNav'},
+        {
+          name: 'PreviousMapRunSummary',
+          params: {
+            day: getDayName(),
+            timeOfDay: getTimeOfDay(),
+            distance: currentRun.distance,
+            time: currentRun.time,
+          },
+        },
+      ],
+    });
+  };
   
 
   
@@ -33,8 +68,6 @@ const PausedMapRunningScreen = ({route}) => {
           ...styles.mainContainer
         }}>
             
-
-
             {/* Progress bar */}
             <View style={styles.innerContainers}>
 
@@ -44,7 +77,7 @@ const PausedMapRunningScreen = ({route}) => {
                     ...styles.timeShapeView}}>
                     {/* Elapsed time */}
                     <View style={styles.metricContainer}>
-                        <Text style={styles.metricValue}>{elapsedTimeValue.time}</Text>
+                        <Text style={styles.metricValue}>{secondsToHm(currentRun.time)}</Text>
                         <Text style={styles.metric}>ELAPSED TIME (HH:MM:SS)</Text>
                     </View>
 
@@ -55,7 +88,7 @@ const PausedMapRunningScreen = ({route}) => {
                     ...styles.distanceShapeView}}>
                     {/* Covered distance */}
                     <View style={styles.metricContainer}>
-                        <Text style={styles.metricValue}>{coveredDistanceValue.distance}</Text>
+                        <Text style={styles.metricValue}>{currentRun.distance.toFixed(2)}</Text>
                         <Text style={styles.metric}>DISTANCE (KM)</Text>
                     </View>
 
@@ -86,7 +119,7 @@ const PausedMapRunningScreen = ({route}) => {
                     </View>
                 
                 </View>
-                {/* Pause Button */}
+                {/* Play/Stop Button */}
                 <View style={styles.playPauseCalContainer}>
                   <View style= {{marginRight:6}}>
                       <Avatar
@@ -109,19 +142,18 @@ const PausedMapRunningScreen = ({route}) => {
                       //onLongPress={saveRun}
                       onPress={() =>
                           Toast.show('Press the button for 5 seconds to save and exit your run.', {
-                          duration: Toast.durations.LONG,
+                          duration: Toast.durations.SHORT,
+                          position: -100
                         })
                       }
+                      onLongPress={saveRun}
                       activeOpacity={0.7}
                       titleStyle={styles.avatarTitle}
                       containerStyle={{backgroundColor: colors.stopButton}}
                       />
                   </View>
 
-                </View>
-                
-                
-                
+                </View> 
             
             </View>
             

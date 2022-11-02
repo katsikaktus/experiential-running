@@ -43,7 +43,7 @@ const HistoryRunCard = (props) => {
         {/* Time */}
         <View>
           <Text style={styles.metricValue}>
-            {props.time}
+            {secondsToHm(props.time)}
           </Text>
           <Text style={styles.metric}>Time</Text>
         </View>

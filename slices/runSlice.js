@@ -27,14 +27,21 @@ export const runSlice = createSlice({
       // payload - information inside an action
       state.position = action.payload;
     },
-    setTotalTime: (state, action) => {
+    /*setTotalTime: (state, action) => {
       // payload - information inside an action
       state.currentRun.time = action.payload;
     },
     setTotalDistance: (state, action) => {
       // payload - information inside an action
       state.currentRun.distance = action.payload;
+    },*/
+    setCurrentRun: (state, action) => {
+      state.currentRun = action.payload;
     },
+
+    saveRunToDatabase: (state, action) => {
+      state.previousRuns.unshift(action.payload);
+    }
     
   
     
@@ -42,15 +49,18 @@ export const runSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { setLocation, setTotalTime, setTotalDistance } = 
+export const { setLocation, saveRunToDatabase, setCurrentRun } = 
 runSlice.actions;
 
 // Selectors - pull information from the data layout
 // One selector for each item in the initialState
 // direct return - arrow function
 export const selectLocation = (state) => state.runMap.position;
-export const selectTotalTime = (state) => state.runMap.currentRun.time;
-export const selectTotalDistance = (state) => state.runMap.currentRun.distance;
+/*export const selectTotalTime = (state) => state.runMap.currentRun.time;
+export const selectTotalDistance = (state) => state.runMap.currentRun.distance;*/
+export const selectPreviousRun = (state) => state.runMap.previousRuns;
+export const selectCurrentRun = (state) => state.runMap.currentRun;
+
 
 
 

@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import colors from '../constants/colors'
 import { calDistance, secondsToHm, calculatePace, pacePresentation, } from '../constants/calculations';
-import { setLocation, setTotalTime, setTotalDistance, selectLocation, selectTotalTime, selectTotalDistance } from '../slices/runSlice';
+import { setLocation,  selectCurrentRun, setCurrentRun } from '../slices/runSlice';
 import MapRunning from '../components/MapRunning';
 import { Avatar } from '@rneui/base';
 
@@ -15,12 +15,17 @@ const ActiveMapRunningScreen = ({route}) => {
     const watchId = useRef(null);
     const navigation = useNavigation();
     const dispatch = useDispatch();
+
     // Getting the passed parameters from the ActiveMapScreen 
     const props = route.params;
 
-    let totalTime = useSelector(selectTotalTime);
-    let totalDistance = useSelector(selectTotalDistance);
+    // get data from redux store
 
+    let currentRun = useSelector(selectCurrentRun);
+    let totalTime = currentRun.time;
+    let totalDistance = currentRun.distance;
+
+    console.log("current", currentRun)
 
     // This state keeps check whether the screen is in focus or not
     const [inFocus, setInFocus] = useState(true);
@@ -36,31 +41,37 @@ const ActiveMapRunningScreen = ({route}) => {
     const [currentPace, setCurrentPace] = useState('0:00');
     const [averagePace, setAveragePace] = useState('0:00');
 
-
+    
     // Target value set by the user
     const [targetValue, setTargetValue] = useState('0.0');
 
   
-    useEffect(()=> navigation.addListener("beforeRemove", event=>{
+    const backButtonCallback = useCallback(
+        event => {
+          // prevent default behavior
+          event.preventDefault();
+    
+          // Alert to confirm his action
+          Alert.alert(
+            'Discarding Run',
+            'Are you sure you want to discard this run?',
+            [
+              {text: 'No', style: 'cancel', onPress: () => {}},
+              {
+                text: 'Yes',
+                style: 'destructive',
+                onPress: () => navigation.dispatch(event.data.action),
+              },
+            ],
+          );
+        },[navigation],
+    );
 
-        event.preventDefault();
-
-      // Alert to confirm the user's action
-      Alert.alert(
-        'Discarding Run',
-        'Are you sure you want to discard this run?',
-        [
-          {text: 'No', style: 'cancel', onPress: () => {}},
-          {
-            text: 'Yes',
-            style: 'destructive',
-            onPress: () => navigation.dispatch(event.data.action),
-          },
-        ],
-      );
-
-        
-    }), [navigation])
+      // UseEffect runs only when the navigation back button is pressed
+    useEffect(() => {
+        if (inFocus) navigation.addListener('beforeRemove', backButtonCallback);
+        return () => navigation.removeListener('beforeRemove', backButtonCallback);
+    }, [navigation, inFocus]);
 
     const getLocationUpdates = async () => {
         let { status } = await Location.requestForegroundPermissionsAsync();
@@ -85,9 +96,7 @@ const ActiveMapRunningScreen = ({route}) => {
                     let newTime;
                     if (oldLocation == null) {
                         newDistance = '0.0';
-                        //totalDistance = 0.0;
                         newTime = 0;
-                        //totalTime = 0;
                         oldTime = position.timestamp
                     } else {
                         newDistance = calDistance(
@@ -109,17 +118,24 @@ const ActiveMapRunningScreen = ({route}) => {
                     oldTime = position.timestamp
                     oldLocation = position
                     setPosition(position)
-                    dispatch(
+                    /*dispatch(
                         setTotalTime({
-                            time: secondsToHm(totalTime)
+                            time: secondsToHm(totalTime1)
                         }),
 
                     )
                     dispatch(
                         setTotalDistance({
-                            distance: totalDistance.toFixed(2)
+                            distance: totalDistance1.toFixed(2)
                         })
                     
+                    )*/
+
+                    dispatch(
+                        setCurrentRun({
+                            distance: totalDistance,
+                            time: totalTime
+                        })
                     )
 
                     dispatch(

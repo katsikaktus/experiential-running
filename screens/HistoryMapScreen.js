@@ -1,19 +1,21 @@
 import { StyleSheet, FlatList, View } from 'react-native'
 import {useSelector} from 'react-redux';
 import HistoryRunCard from '../components/HistoryRunCard';
-import { DATA } from "../constants/dummyData"
 
 import React from 'react'
+import { selectPreviousRun } from '../slices/runSlice';
 
 const HistoryMapScreen = () => {
+
+  const DATA = useSelector(selectPreviousRun);
 
   const renderItem = ({item}) => (
 
     <HistoryRunCard
       day={item.day}
       timeOfDay={item.timeOfDay}
-      kilometer={item.kilometer}
-      avgPace={item.avgPace}
+      kilometer={item.distance}
+      avgPace={item.time/item.distance}
       time={item.time}
     />
   );

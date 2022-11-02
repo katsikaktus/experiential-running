@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux';
 
 import MapView, {Circle, Marker} from 'react-native-maps';
 import MapLocation from '../components/MapLocation';
-import { setLocation, selectLocation } from '../slices/runSlice';
+import { setLocation, setCurrentRun } from '../slices/runSlice';
 import ghost_icon from "../assets/ghost_icon.png"
 import tower_icon from "../assets/tower_icon.png"
 
@@ -74,6 +74,13 @@ const ActiveMapScreen = () => {
     navigation.addListener('focus', event => {
       interval.current = setInterval(() => getLocation(), 30000);
       getLocation();
+      dispatch(
+        setCurrentRun({
+          distance: 0,
+          time: 0
+        })
+      );
+
       
     });
 
