@@ -149,7 +149,7 @@ const ActiveMapRunningScreen = ({route}) => {
                         setCurrentRun({
                             distance: totalDistance,
                             time: totalTime,
-                            currentPath: []
+                            savedPath: []
                         })
                     )
 

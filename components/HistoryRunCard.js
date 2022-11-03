@@ -3,14 +3,25 @@ import React from 'react'
 import {useNavigation} from '@react-navigation/native';
 import { calculatePace, pacePresentation, secondsToHm } from '../constants/calculations';
 
-const HistoryRunCard = (props) => {
-    
+const HistoryRunCard = props => {
+
+  //console.log("HistoryRunCard", props)
+
     const navigation = useNavigation();
 
   return (
     <Pressable
       style={styles.mainContainer}
-      onPress={() => navigation.navigate("PreviousMapRunSummary")}>
+      onPress={() => navigation.navigate("PreviousMapRunSummary",{
+          day: props.day,
+          timeOfDay: props.timeOfDay,
+          distance: props.distance,
+          time: props.time,
+          savedPath: props.savedPath,
+          //props: props
+        }
+      
+      )}>
       {/* Inner Container 1 */}
       <View style={styles.innerContainer1}>
         {/* Image */}

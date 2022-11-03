@@ -5,7 +5,7 @@ import MapRunning from '../components/MapRunning';
 import { useDispatch, useSelector } from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 
-import { selectCurrentRun, selectPreviousRun, saveRunToDatabase, selectSavedCurrentPath, setCurrentRun } from '../slices/runSlice';
+import { selectCurrentRun, selectPreviousRun, saveRunToDatabase, selectSavedCurrentPath, setCurrentRun, clearCurrentPath } from '../slices/runSlice';
 import { Avatar } from '@rneui/base';
 import Toast from 'react-native-root-toast';
 import { getDayName, getTimeOfDay } from '../constants/calculations';
@@ -26,6 +26,8 @@ const PausedMapRunningScreen = ({route}) => {
   console.log("totalRunPath PausedScreen",totalRunPath)
 
   const previousRuns = useSelector(selectPreviousRun)
+  //console.log("previousRuns PausedScreen",previousRuns)
+
 
   const dispatch = useDispatch();
   const navigation = useNavigation()
@@ -51,10 +53,20 @@ const PausedMapRunningScreen = ({route}) => {
       setCurrentRun({
         distance: currentRun.distance,
         time: currentRun.time,
-        currentPath: totalRunPath
+        savedPath: totalRunPath,
       }),
      
     );
+
+    dispatch(
+      clearCurrentPath({
+
+      }
+
+      )
+    )
+
+    
 
     
     navigation.reset({
@@ -68,7 +80,7 @@ const PausedMapRunningScreen = ({route}) => {
             timeOfDay: getTimeOfDay(),
             distance: currentRun.distance,
             time: currentRun.time,
-            runPath: totalRunPath
+            savedPath: totalRunPath
           },
         },
       ],

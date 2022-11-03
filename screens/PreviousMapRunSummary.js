@@ -12,7 +12,8 @@ const PreviousMapRunSummary = ({route}) => {
     const [title, setTitle] = useState('Morning Run');
 
     const props = route.params;
-    console.log("props summary", props)
+
+    console.log("props PreviousMapRunSummary", props)
 
 
     // Function to change title input
@@ -44,14 +45,14 @@ const PreviousMapRunSummary = ({route}) => {
         <MapView 
             //ref={watchId}
             initialRegion={{
-                latitude:props.runPath[0].latitude || 59.32487,
-                longitude:props.runPath[0].longitude || 18.07221,
+                latitude:props.savedPath[0].latitude || 59.32487,
+                longitude:props.savedPath[0].longitude || 18.07221,
                 latitudeDelta: 0.0922,
                 longitudeDelta: 0.0421,
             }}
             minZoomLevel={15}
             style={{flex:1, opacity: 1}}>
-            {props.runPath.map((host, i) => {
+            {props.savedPath.map((host, i) => {
                 if (host.latitude && host.longitude) {
                 return(<Circle
                     key={i}
@@ -60,7 +61,7 @@ const PreviousMapRunSummary = ({route}) => {
                     longitude: host.longitude
                     }}
                     title={host.id}
-                    radius={8}
+                    radius={5}
                     fillColor= {colors.mapDrawTrack}
                     strokeColor= {colors.mapDrawTrack}
                     
