@@ -2,7 +2,6 @@ import { StyleSheet, View,Text,Pressable,TextInput,Keyboard,Dimensions, } from '
 import React, {useState, useRef, useEffect} from 'react';
 import colors from '../constants/colors';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
-import MapPreviousRun from '../components/MapPreviousRun';
 import MapView, { Circle, Polyline, Marker } from 'react-native-maps';
 
 
@@ -13,7 +12,7 @@ const PreviousMapRunSummary = ({route}) => {
 
     const props = route.params;
 
-    console.log("props PreviousMapRunSummary", props)
+    //console.log("props PreviousMapRunSummary", props)
 
 
     // Function to change title input

@@ -53,7 +53,7 @@ export const getDayName = () => {
   
   // Convert seconds to hours and minutes and seconds
   export const secondsToHm = seconds => {
-    seconds = Number(seconds / 1000 );
+    seconds = Number(seconds/1000);
   
     var hours = Math.floor(seconds / 3600);
     var minutes = Math.floor((seconds % 3600) / 60);
@@ -75,24 +75,29 @@ export const getDayName = () => {
       return 0;
     }
     dist = parseFloat(dist);
-    /*time = secondsToHm(time_seconds);
+    delta_time=delta_time/1000
+    time = secondsToHm(delta_time);
     const hrs = parseInt(time.substring(0, 2));
     const mins = parseInt(time.substring(3, 5));
     const secs = parseInt(time.substring(6, 8));
+
+    
+
   
     var timeElapsed = 0;
     timeElapsed += hrs * 60;
     timeElapsed += mins;
-    timeElapsed += secs / 60;*/
-  
-    let pace = delta_time / 60000 / dist;
+    timeElapsed += secs / 60;
+    const pace = timeElapsed / dist;
+    console.log("time", time)
+    console.log("delta_time", delta_time)
+    console.log("timeElapsed", timeElapsed)
+    console.log("pace", pace)
 
-    if (pace > 15) {
-      pace = 0
-    }
+
+    return pace;
 
 
-    return  pace.toFixed(2);
   };
   
   // Function to show pace value to user

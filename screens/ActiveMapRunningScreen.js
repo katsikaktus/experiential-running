@@ -116,31 +116,31 @@ const ActiveMapRunningScreen = ({route}) => {
                             position.coords.longitude,
                         );
                         newTime = position.timestamp - oldTime
-                        // change to timestamp given in seconds
-                        /*if (position.timestamp>oldTime){
-                            newTime = position.timestamp - oldTime
-                        } else {
-                            newTime = oldTime
-                        }*/
-                       
-                        //newTime = 1000
                     }
                     totalDistance = totalDistance + parseFloat(newDistance);
                     setCoveredDistanceValue(totalDistance.toFixed(2));
+
                     totalTime = totalTime + newTime;
-                    
+                
 
                     setElapsedTimeValue(secondsToHm(totalTime))
-                    setCurrentPace(pacePresentation(calculatePace(newDistance, newTime)));
-                    if (calculatePace(totalDistance, totalTime) > 20){
-                        setAveragePace("0:00")
+
+                    
+
+                    if (calculatePace(newDistance, newTime) > 50 || calculatePace(newDistance, newTime) < 50){
+                        setCurrentPace("0:00")
                     } else {
-                        setAveragePace(pacePresentation(calculatePace(totalDistance, totalTime)));
+                        setAveragePace(pacePresentation(calculatePace(newDistance, newTime)));
                     }
+
+                  
+                    setAveragePace(pacePresentation(calculatePace(totalDistance, totalTime)));
+                    
                     
 
                     oldTime = position.timestamp
                     oldLocation = position
+                    
                     setPosition(position)
                     saveCoords(position)
 
@@ -160,10 +160,7 @@ const ActiveMapRunningScreen = ({route}) => {
                         }),
                     
                     )
-                    
-                    
 
-        
 
                 },
                 

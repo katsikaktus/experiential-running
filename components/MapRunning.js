@@ -36,36 +36,37 @@ const MapRunning = () => {
 
   return (
     <View style={styles.container} pointerEvents="none">
+        
         <MapView 
             //ref={watchId}
             region={{
-                latitude:position?.position.coords.latitude || 59.32487,
-                longitude:position?.position.coords.longitude || 18.07221,
+                latitude:path[0]?.latitude || position?.position.coords.latitude || 59.32487,
+                longitude:path[0]?.longitude || position?.position.coords.longitude || 18.07221,
                 latitudeDelta: 0.0922,
                 longitudeDelta: 0.0421,
             }}
             minZoomLevel={15}
             style={{flex:1, opacity: 1}}>
-
-            <Polyline
-                    coordinates={[pathPoints]} //specify our coordinates
-                    strokeColor={"#000"}
-                    strokeWidth={3}
-                    lineDashPattern={[1]}
-                />
-            
-            {position?.position.coords && (
-                <Circle
-                center={{
-                    latitude:position?.position.coords.latitude || 59.32487,
-                    longitude:position?.position.coords.longitude || 18.07221,
-                }}
-                radius={12}
-                fillColor= {colors.mapPointerCircle}
-                /> 
-            )}
+            {path?.map((host, i) => {
+                if (host.latitude && host.longitude) {
+                return(<Circle
+                    key={i}
+                    center={{
+                    latitude: host.latitude,
+                    longitude: host.longitude
+                    }}
+                    title={host.id}
+                    radius={5}
+                    fillColor= {colors.mapDrawTrack}
+                    strokeColor= {colors.mapDrawTrack}
+                    
+                />)
+                }
+            })}
                     
         </MapView>
+
+        
   
     </View>
 
@@ -89,4 +90,29 @@ const styles = StyleSheet.create({
                 fillColor= {colors.mapPointerCircle}
                 /> 
             )}
+
+<MapView 
+            //ref={watchId}
+            region={{
+                latitude:position?.position.coords.latitude || 59.32487,
+                longitude:position?.position.coords.longitude || 18.07221,
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0421,
+            }}
+            minZoomLevel={15}
+            style={{flex:1, opacity: 1}}>
+
+            
+            {position?.position.coords && (
+                <Circle
+                center={{
+                    latitude:position?.position.coords.latitude || 59.32487,
+                    longitude:position?.position.coords.longitude || 18.07221,
+                }}
+                radius={12}
+                fillColor= {colors.mapPointerCircle}
+                /> 
+            )}
+                    
+        </MapView>
 */
