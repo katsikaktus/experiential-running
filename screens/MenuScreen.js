@@ -5,7 +5,7 @@ import tw from "twrnc";
 
 
 
-const HomeScreen = () => {
+const MenuScreen = () => {
     // push information to data layout
 
 
@@ -21,6 +21,6 @@ const HomeScreen = () => {
   )
 }
 
-export default HomeScreen
+export default MenuScreen
 
 const styles = StyleSheet.create({})
