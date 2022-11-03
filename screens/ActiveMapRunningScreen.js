@@ -104,7 +104,7 @@ const ActiveMapRunningScreen = ({route}) => {
                 position => {
                     let newDistance;
                     let newTime;
-                    if (oldLocation == null) {
+                    if (oldLocation == null || oldTime == null) {
                         newDistance = '0.0';
                         newTime = 0;
                         oldTime = position.timestamp
@@ -115,19 +115,30 @@ const ActiveMapRunningScreen = ({route}) => {
                             position.coords.latitude,
                             position.coords.longitude,
                         );
+                        newTime = position.timestamp - oldTime
                         // change to timestamp given in seconds
-                        if (position.timestamp>oldTime){
+                        /*if (position.timestamp>oldTime){
                             newTime = position.timestamp - oldTime
-                        }
+                        } else {
+                            newTime = oldTime
+                        }*/
                        
                         //newTime = 1000
                     }
                     totalDistance = totalDistance + parseFloat(newDistance);
                     setCoveredDistanceValue(totalDistance.toFixed(2));
                     totalTime = totalTime + newTime;
+                    console.log("total time", totalTime)
+                    console.log("new time", newTime)
+
                     setElapsedTimeValue(secondsToHm(totalTime))
                     setCurrentPace(pacePresentation(calculatePace(newDistance, newTime)));
-                    setAveragePace(pacePresentation(calculatePace(totalDistance, totalTime)));
+                    if (calculatePace(totalDistance, totalTime) > 20){
+                        setAveragePace("0:00")
+                    } else {
+                        setAveragePace(pacePresentation(calculatePace(totalDistance, totalTime)));
+                    }
+                    
 
                     oldTime = position.timestamp
                     oldLocation = position

@@ -84,12 +84,13 @@ export const getDayName = () => {
     timeElapsed += hrs * 60;
     timeElapsed += mins;
     timeElapsed += secs / 60;*/
-    console.log("lets see the time passed", delta_time)
-    console.log("lets see the distance passed", dist)
+  
+    let pace = delta_time / 60000 / dist;
 
-    const pace = delta_time / 60000 / dist;
+    if (pace > 15) {
+      pace = 0
+    }
 
-    console.log("lets see the calculated pace", pace.toFixed(2))
 
     return  pace.toFixed(2);
   };

@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import MapView, { Circle, Polyline } from 'react-native-maps';
-import { selectLocation } from '../slices/runSlice';
+import { selectCurrentPath, selectLocation } from '../slices/runSlice';
 import { useSelector } from 'react-redux';
 import colors from '../constants/colors';
 
@@ -9,7 +9,8 @@ import colors from '../constants/colors';
 const MapRunning = () => {
 
     const position = useSelector(selectLocation);
-    console.log("whats up Maprunning", position)
+    const path = useSelector(selectCurrentPath);
+    //console.log("whats up Maprunning", path)
 
     const currentPoint = {
         latitude:position?.position.coords.latitude || 59.32487,
@@ -21,6 +22,13 @@ const MapRunning = () => {
     const previousPoint = {
         latitude:position?.oldLocation?.coords.latitude || 59.32487,
         longitude:position?.oldLocation?.coords.longitude || 18.07221,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+    }
+
+    const pathPoints = {
+        latitude:path?.latitude || 59.32487,
+        longitude:path?.longitude || 18.07221,
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
     }
@@ -39,7 +47,7 @@ const MapRunning = () => {
             style={{flex:1, opacity: 1}}>
 
             <Polyline
-                    coordinates={[previousPoint, currentPoint]} //specify our coordinates
+                    coordinates={[pathPoints]} //specify our coordinates
                     strokeColor={"#000"}
                     strokeWidth={3}
                     lineDashPattern={[1]}
