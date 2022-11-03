@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { ListItem } from '@rneui/base';
 
 
 const initialState = {
@@ -7,7 +8,9 @@ const initialState = {
         distance: 0,
         time: 0,
       },
+      currentPath:[],
       previousRuns: [],
+      bb: [],
       totalKms: 0,
       userName: '',
 };
@@ -41,15 +44,17 @@ export const runSlice = createSlice({
 
     saveRunToDatabase: (state, action) => {
       state.previousRuns.unshift(action.payload);
+    },
+    saveCurrentPath: (state, action) => {
+      state.currentPath.unshift(action.payload);
     }
-    
   
     
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setLocation, saveRunToDatabase, setCurrentRun } = 
+export const { setLocation, saveRunToDatabase, setCurrentRun, saveCurrentPath } = 
 runSlice.actions;
 
 // Selectors - pull information from the data layout
@@ -60,8 +65,10 @@ export const selectLocation = (state) => state.runMap.position;
 export const selectTotalDistance = (state) => state.runMap.currentRun.distance;*/
 export const selectPreviousRun = (state) => state.runMap.previousRuns;
 export const selectCurrentRun = (state) => state.runMap.currentRun;
+export const selectCurrentPath = (state) => state.runMap.currentPath;
 
-
+//export const selectCoordinatesCurrentRun = (state) => state.runMap.currentRun.coordinates;
+//export const selectCoordinatesCurrentRun = (state) => state.runMap.bb;
 
 
 export default runSlice.reducer;

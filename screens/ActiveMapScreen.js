@@ -12,6 +12,7 @@ import MapLocation from '../components/MapLocation';
 import { setLocation, setCurrentRun } from '../slices/runSlice';
 import ghost_icon from "../assets/ghost_icon.png"
 import tower_icon from "../assets/tower_icon.png"
+import { current } from '@reduxjs/toolkit';
 
 
 
@@ -77,7 +78,8 @@ const ActiveMapScreen = () => {
       dispatch(
         setCurrentRun({
           distance: 0,
-          time: 0
+          time: 0,
+          runPath: []
         })
       );
 

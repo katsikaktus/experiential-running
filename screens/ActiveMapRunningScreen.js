@@ -5,8 +5,8 @@ import * as Location from 'expo-location';
 import { useDispatch, useSelector } from 'react-redux';
 
 import colors from '../constants/colors'
-import { calDistance, secondsToHm, calculatePace, pacePresentation, } from '../constants/calculations';
-import { setLocation,  selectCurrentRun, setCurrentRun } from '../slices/runSlice';
+import { calDistance, secondsToHm, calculatePace, pacePresentation, getDayName, } from '../constants/calculations';
+import { setLocation,  selectCurrentRun, setCurrentRun, saveCurrentPath } from '../slices/runSlice';
 import MapRunning from '../components/MapRunning';
 import { Avatar } from '@rneui/base';
 
@@ -25,13 +25,10 @@ const ActiveMapRunningScreen = ({route}) => {
     let totalTime = currentRun.time;
     let totalDistance = currentRun.distance;
 
-    console.log("current", currentRun)
-
     // This state keeps check whether the screen is in focus or not
     const [inFocus, setInFocus] = useState(true);
 
     const [position, setPosition] = useState(null);
-    const [metricValue, setMetricValue] = useState('0.0');
 
     const [coveredDistanceValue, setCoveredDistanceValue] = useState('0.00');
     const [elapsedTimeValue, setElapsedTimeValue] = useState('00:00:00');
@@ -44,6 +41,19 @@ const ActiveMapRunningScreen = ({route}) => {
     
     // Target value set by the user
     const [targetValue, setTargetValue] = useState('0.0');
+
+    const saveCoords = (position) => {
+        dispatch(
+            saveCurrentPath({
+                
+                id: new Date().toLocaleDateString(),
+                timestamp: position?.timestamp || 0,
+                latitude: position?.coords.latitude || 59.32487,
+                longitude: position?.coords.longitude || 18.07221,
+            }),
+         
+        );
+      };
 
   
     const backButtonCallback = useCallback(
@@ -86,7 +96,7 @@ const ActiveMapRunningScreen = ({route}) => {
         watchId.current = await Location.watchPositionAsync(
                 {   
                     accuracy:Location.Accuracy.High,
-                    timeInterval: 100,
+                    timeInterval: 1000,
                     distanceInterval: 0
                 },
 
@@ -106,18 +116,24 @@ const ActiveMapRunningScreen = ({route}) => {
                             position.coords.longitude,
                         );
                         // change to timestamp given in seconds
-                        newTime = position.timestamp - oldTime
+                        if (position.timestamp>oldTime){
+                            newTime = position.timestamp - oldTime
+                        }
+                       
+                        //newTime = 1000
                     }
                     totalDistance = totalDistance + parseFloat(newDistance);
                     setCoveredDistanceValue(totalDistance.toFixed(2));
                     totalTime = totalTime + newTime;
                     setElapsedTimeValue(secondsToHm(totalTime))
                     setCurrentPace(pacePresentation(calculatePace(newDistance, newTime)));
-                    //setAveragePace(pacePresentation(calculatePace(totalDistance, totalTime)));
+                    setAveragePace(pacePresentation(calculatePace(totalDistance, totalTime)));
 
                     oldTime = position.timestamp
                     oldLocation = position
                     setPosition(position)
+                    saveCoords(position)
+
                     /*dispatch(
                         setTotalTime({
                             time: secondsToHm(totalTime1)
@@ -131,19 +147,26 @@ const ActiveMapRunningScreen = ({route}) => {
                     
                     )*/
 
+                    
+
                     dispatch(
                         setCurrentRun({
                             distance: totalDistance,
-                            time: totalTime
+                            time: totalTime,
                         })
                     )
 
                     dispatch(
                         setLocation({
+                            oldLocation: oldLocation,
                             position: position
                         }),
-                  
-                      )
+                    
+                    )
+                    
+                    
+
+        
 
                 },
                 

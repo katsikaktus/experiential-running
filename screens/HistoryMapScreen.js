@@ -14,8 +14,7 @@ const HistoryMapScreen = () => {
     <HistoryRunCard
       day={item.day}
       timeOfDay={item.timeOfDay}
-      kilometer={item.distance}
-      avgPace={item.time/item.distance}
+      distance={item.distance}
       time={item.time}
     />
   );

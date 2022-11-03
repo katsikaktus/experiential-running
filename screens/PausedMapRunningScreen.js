@@ -5,7 +5,7 @@ import MapRunning from '../components/MapRunning';
 import { useDispatch, useSelector } from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 
-import { selectCurrentRun, selectPreviousRun, saveRunToDatabase, setCurrentRun } from '../slices/runSlice';
+import { selectCurrentRun, selectPreviousRun, saveRunToDatabase, selectCurrentPath, selectCoordinatesCurrentRun } from '../slices/runSlice';
 import { Avatar } from '@rneui/base';
 import Toast from 'react-native-root-toast';
 import { getDayName, getTimeOfDay } from '../constants/calculations';
@@ -20,6 +20,9 @@ const PausedMapRunningScreen = ({route}) => {
 
   const currentRun = useSelector(selectCurrentRun);
 
+  const runPath = useSelector(selectCurrentPath);
+  console.log("runPath",runPath)
+
   const previousRuns = useSelector(selectPreviousRun)
 
   const dispatch = useDispatch();
@@ -27,12 +30,16 @@ const PausedMapRunningScreen = ({route}) => {
   const {currentPace, averagePace} = route.params;
 
   const saveRun = () => {
+    const id = new Date().toISOString() + "Team"
+
     dispatch(
       saveRunToDatabase({
+        id: id,
         day: getDayName(),
         timeOfDay: getTimeOfDay(),
         distance: currentRun.distance,
         time: currentRun.time,
+        runPath: runPath
       }),
      
     );

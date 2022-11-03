@@ -31,12 +31,12 @@ const HistoryRunCard = (props) => {
       <View style={styles.innerContainer2}>
         {/* Kilometer */}
         <View>
-          <Text style={styles.metricValue}>{props.kilometer}</Text>
+          <Text style={styles.metricValue}>{props.distance.toFixed(2)}</Text>
           <Text style={styles.metric}>Kilometer</Text>
         </View>
         {/* Avg pace */}
         <View>
-          <Text style={styles.metricValue}>{props.avgPace}
+          <Text style={styles.metricValue}>{pacePresentation(calculatePace(props.distance, props.time))}
           </Text>
           <Text style={styles.metric}>Avg. Pace</Text>
         </View>
