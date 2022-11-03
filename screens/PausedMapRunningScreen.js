@@ -5,7 +5,7 @@ import MapRunning from '../components/MapRunning';
 import { useDispatch, useSelector } from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 
-import { selectCurrentRun, selectPreviousRun, saveRunToDatabase, selectCurrentPath, selectCoordinatesCurrentRun } from '../slices/runSlice';
+import { selectCurrentRun, selectPreviousRun, saveRunToDatabase, selectSavedCurrentPath, setCurrentRun } from '../slices/runSlice';
 import { Avatar } from '@rneui/base';
 import Toast from 'react-native-root-toast';
 import { getDayName, getTimeOfDay } from '../constants/calculations';
@@ -19,9 +19,11 @@ const PausedMapRunningScreen = ({route}) => {
   //const coveredDistanceValue = useSelector(selectTotalDistance)
 
   const currentRun = useSelector(selectCurrentRun);
+  console.log("currentRun PausedScreen",currentRun)
 
-  const runPath = useSelector(selectCurrentPath);
-  console.log("runPath",runPath)
+
+  const totalRunPath = useSelector(selectSavedCurrentPath);
+  console.log("totalRunPath PausedScreen",totalRunPath)
 
   const previousRuns = useSelector(selectPreviousRun)
 
@@ -32,6 +34,7 @@ const PausedMapRunningScreen = ({route}) => {
   const saveRun = () => {
     const id = new Date().toISOString() + "Team"
 
+
     dispatch(
       saveRunToDatabase({
         id: id,
@@ -39,10 +42,20 @@ const PausedMapRunningScreen = ({route}) => {
         timeOfDay: getTimeOfDay(),
         distance: currentRun.distance,
         time: currentRun.time,
-        runPath: runPath
+        savedPath: totalRunPath
       }),
      
     );
+
+    dispatch(
+      setCurrentRun({
+        distance: currentRun.distance,
+        time: currentRun.time,
+        currentPath: totalRunPath
+      }),
+     
+    );
+
     
     navigation.reset({
       index: 1,
@@ -55,6 +68,7 @@ const PausedMapRunningScreen = ({route}) => {
             timeOfDay: getTimeOfDay(),
             distance: currentRun.distance,
             time: currentRun.time,
+            runPath: totalRunPath
           },
         },
       ],

@@ -128,8 +128,7 @@ const ActiveMapRunningScreen = ({route}) => {
                     totalDistance = totalDistance + parseFloat(newDistance);
                     setCoveredDistanceValue(totalDistance.toFixed(2));
                     totalTime = totalTime + newTime;
-                    console.log("total time", totalTime)
-                    console.log("new time", newTime)
+                    
 
                     setElapsedTimeValue(secondsToHm(totalTime))
                     setCurrentPace(pacePresentation(calculatePace(newDistance, newTime)));
@@ -145,25 +144,12 @@ const ActiveMapRunningScreen = ({route}) => {
                     setPosition(position)
                     saveCoords(position)
 
-                    /*dispatch(
-                        setTotalTime({
-                            time: secondsToHm(totalTime1)
-                        }),
-
-                    )
-                    dispatch(
-                        setTotalDistance({
-                            distance: totalDistance1.toFixed(2)
-                        })
-                    
-                    )*/
-
-                    
 
                     dispatch(
                         setCurrentRun({
                             distance: totalDistance,
                             time: totalTime,
+                            currentPath: []
                         })
                     )
 

@@ -2,12 +2,18 @@ import { StyleSheet, View,Text,Pressable,TextInput,Keyboard,Dimensions, } from '
 import React, {useState, useRef, useEffect} from 'react';
 import colors from '../constants/colors';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
+import MapPreviousRun from '../components/MapPreviousRun';
+import MapView, { Circle, Polyline, Marker } from 'react-native-maps';
 
 
-const PreviousMapRunSummary = () => {
+const PreviousMapRunSummary = ({route}) => {
 
     // Title of the specific run that is editable for the user
     const [title, setTitle] = useState('Morning Run');
+
+    const props = route.params;
+    console.log("props summary", props)
+
 
     // Function to change title input
     const titleChangeHandler = input => {
@@ -34,6 +40,38 @@ const PreviousMapRunSummary = () => {
         />
         <SimpleLineIcons name="pencil" size={20} />
       </Pressable>
+      <View style={styles.container}>
+        <MapView 
+            //ref={watchId}
+            initialRegion={{
+                latitude:props.runPath[0].latitude || 59.32487,
+                longitude:props.runPath[0].longitude || 18.07221,
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0421,
+            }}
+            minZoomLevel={15}
+            style={{flex:1, opacity: 1}}>
+            {props.runPath.map((host, i) => {
+                if (host.latitude && host.longitude) {
+                return(<Circle
+                    key={i}
+                    center={{
+                    latitude: host.latitude,
+                    longitude: host.longitude
+                    }}
+                    title={host.id}
+                    radius={8}
+                    fillColor= {colors.mapDrawTrack}
+                    strokeColor= {colors.mapDrawTrack}
+                    
+                />)
+                }
+            })}
+                    
+        </MapView>
+  
+    </View>
+
       
     </Pressable>
   )
@@ -42,6 +80,7 @@ const PreviousMapRunSummary = () => {
 export default PreviousMapRunSummary
 
 const styles = StyleSheet.create({
+  container: {height: '50%', width: '100%'},
   mainContainer: {
     backgroundColor: colors.summaryBackgroundColor,
     flex: 1,

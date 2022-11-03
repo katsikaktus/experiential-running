@@ -7,10 +7,10 @@ const initialState = {
       currentRun: {
         distance: 0,
         time: 0,
+        currentPath: []
       },
-      currentPath:[],
+      savedPath:[],
       previousRuns: [],
-      bb: [],
       totalKms: 0,
       userName: '',
 };
@@ -45,8 +45,9 @@ export const runSlice = createSlice({
     saveRunToDatabase: (state, action) => {
       state.previousRuns.unshift(action.payload);
     },
+
     saveCurrentPath: (state, action) => {
-      state.currentPath.unshift(action.payload);
+      state.savedPath.unshift(action.payload);
     }
   
     
@@ -65,7 +66,7 @@ export const selectLocation = (state) => state.runMap.position;
 export const selectTotalDistance = (state) => state.runMap.currentRun.distance;*/
 export const selectPreviousRun = (state) => state.runMap.previousRuns;
 export const selectCurrentRun = (state) => state.runMap.currentRun;
-export const selectCurrentPath = (state) => state.runMap.currentPath;
+export const selectSavedCurrentPath = (state) => state.runMap.savedPath;
 
 //export const selectCoordinatesCurrentRun = (state) => state.runMap.currentRun.coordinates;
 //export const selectCoordinatesCurrentRun = (state) => state.runMap.bb;

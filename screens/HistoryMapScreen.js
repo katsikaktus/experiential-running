@@ -8,6 +8,7 @@ import { selectPreviousRun } from '../slices/runSlice';
 const HistoryMapScreen = () => {
 
   const DATA = useSelector(selectPreviousRun);
+  console.log("data History screen", DATA)
 
   const renderItem = ({item}) => (
 
@@ -16,6 +17,7 @@ const HistoryMapScreen = () => {
       timeOfDay={item.timeOfDay}
       distance={item.distance}
       time={item.time}
+      runPath = {item.runPath}
     />
   );
   
