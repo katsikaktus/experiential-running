@@ -28,45 +28,70 @@ const NavOptions = () => {
             //underlayColor = '#5391EE'
             >
 
-            <Pressable  style={{position:"absolute", top:100, backgroundColor: "#9B77DA",...styles.largeBubbleContainer}} 
-            onPress={() => navigation.navigate("StartUpScreen") }>
-                    <Image source={start_page_icon} style={{height:56, width:50, }} />
-            </Pressable>
+            <View style={{position:"absolute", top:100, ...styles.shadowWrapperLarge}}>
+
+                <Pressable  style={{ backgroundColor: "#9B77DA",...styles.largeBubbleContainer}} 
+                onPress={() => navigation.navigate("StartUpScreen") }>
+                        <Image source={start_page_icon} style={{height:56, width:50}} />
+                </Pressable>
+
+            </View>
+
+            <View style={{position:"absolute",bottom:Dimensions.get('window').width * 0.6,...styles.shadowWrapperSmall}}>
+                <Pressable  style={{backgroundColor: "#6FA5B1",...styles.smallBubbleContainer}} 
+                onPress={() => navigation.navigate("ProfilePageScreen") }>
+                        <Image source={profile_page_icon} style={{height:54, width:54, }} />
+                </Pressable>
+            </View>
+
             
-            <Pressable  style={{position:"absolute",bottom:Dimensions.get('window').width * 0.6, backgroundColor: "#6FA5B1",...styles.smallBubbleContainer}} 
-            onPress={() => navigation.navigate("ProfilePageScreen") }>
-                    <Image source={profile_page_icon} style={{height:54, width:54, }} />
-            </Pressable>
 
-            <Pressable style={{position:"absolute",bottom:Dimensions.get('window').width * 0.6, right: -20, top:30, backgroundColor: "#F39DE5",...styles.smallBubbleContainer}} 
-            onPress={() => navigation.navigate("ChallengesPageScreen")}>
-                <Image source={challenges_page_icon} style={{height:60, width:54}} />
-            </Pressable>
+            <View style = {{position:"absolute",bottom:Dimensions.get('window').width * 0.6, right: -20, top:30, ...styles.shadowWrapperSmall}}>
+                <Pressable style={{backgroundColor: "#F39DE5",...styles.smallBubbleContainer}} 
+                onPress={() => navigation.navigate("ChallengesPageScreen")}>
+                    <Image source={challenges_page_icon} style={{height:60, width:54}} />
+                </Pressable>
+            </View>
 
-            <Pressable style={{position:"absolute",bottom:Dimensions.get('window').width * 0.6, right: -30, bottom:50, backgroundColor: "#F5A17D",...styles.smallBubbleContainer}}
-            onPress={() => navigation.navigate("GoalsPageScreen")}>
-                <Image source={goals_page_icon} style={{height:50, width:60}} />
-            </Pressable>
+            <View style = {{position:"absolute",bottom:Dimensions.get('window').width * 0.6, right: -30, bottom:50, ...styles.shadowWrapperSmall}}>
+                <Pressable style={{backgroundColor: "#F5A17D",...styles.smallBubbleContainer}}
+                onPress={() => navigation.navigate("GoalsPageScreen")}>
+                    <Image source={goals_page_icon} style={{height:50, width:60}} />
+                </Pressable>
+            </View>
+            
+            <View style = {{position:"absolute",bottom:Dimensions.get('window').width * 0.6, right: 40, bottom: -60,...styles.shadowWrapperSmall}}>
+                <Pressable style={{backgroundColor: "#27BE88",...styles.smallBubbleContainer}}
+                onPress={() => navigation.navigate("MapTabNav")}>
+                    <Image source={maps_page_icon} style={{height:60, width:52, }} />
+                </Pressable>
+            </View>
 
-            <Pressable style={{position:"absolute",bottom:Dimensions.get('window').width * 0.6, right: 40, bottom: -60, backgroundColor: "#27BE88",...styles.smallBubbleContainer}}
-            onPress={() => navigation.navigate("MapTabNav")}>
-                <Image source={maps_page_icon} style={{height:60, width:52, }} />
-            </Pressable>
 
-            <Pressable style={{position:"absolute",bottom:Dimensions.get('window').width * 0.6, left: 40, bottom: -60, backgroundColor: "#A798D5",...styles.smallBubbleContainer}}
-            onPress={() => navigation.navigate("HistoryPageScreen")}>
-                    <Image source={history_page_icon} style={{height:50, width:50, }} />
-            </Pressable>
+            <View style = {{position:"absolute",bottom:Dimensions.get('window').width * 0.6, left: 40, bottom: -60, ...styles.shadowWrapperSmall}}>
+                <Pressable style={{backgroundColor: "#A798D5",...styles.smallBubbleContainer}}
+                onPress={() => navigation.navigate("HistoryPageScreen")}>
+                        <Image source={history_page_icon} style={{height:50, width:50, }} />
+                </Pressable>
+            </View>
 
-            <Pressable style={{position:"absolute",bottom:Dimensions.get('window').width * 0.6, left: -30, bottom:50, backgroundColor: "#F57D7D",...styles.smallBubbleContainer}}
-            onPress={() => navigation.navigate("HistoryPageScreen")}>
-                <Image source={adventure_page_icon} style={{height:40, width:70}} />
-            </Pressable>
 
-            <Pressable style={{position:"absolute",bottom:Dimensions.get('window').width * 0.6, left: -20, top:30, backgroundColor: "#5391EE",...styles.smallBubbleContainer}} 
-            onPress={() => navigation.navigate("HistoryPageScreen")}>
-                <Image source={leaderboard_page_icon} style={{height:30, width:50, }} />
-            </Pressable>
+            <View style = {{position:"absolute",bottom:Dimensions.get('window').width * 0.6, left: -30, bottom:50, ...styles.shadowWrapperSmall}}>
+                <Pressable style={{backgroundColor: "#F57D7D",...styles.smallBubbleContainer}}
+                onPress={() => navigation.navigate("HistoryPageScreen")}>
+                    <Image source={adventure_page_icon} style={{height:40, width:70}} />
+                </Pressable>
+            </View>
+
+            
+
+            <View style = {{position:"absolute",bottom:Dimensions.get('window').width * 0.6, left: -20, top:30,  ...styles.shadowWrapperSmall}}>
+                <Pressable style={{backgroundColor: "#5391EE",...styles.smallBubbleContainer}} 
+                onPress={() => navigation.navigate("HistoryPageScreen")}>
+                    <Image source={leaderboard_page_icon} style={{height:30, width:50, }} />
+                </Pressable>
+            </View>
+
             
                     
             </View>
@@ -83,9 +108,17 @@ const NavOptions = () => {
 export default NavOptions
 
 const styles = StyleSheet.create({
-    mainContainer: {marginTop: -30, height: '100%', width: '100%', justifyContent:"center",alignItems:"center",},
 
+    container: {height: '100%', width: '100%'},
 
+    mainContainer: {
+        marginTop: -30, 
+        height: '100%', 
+        width: '100%', 
+        justifyContent:"center",
+        alignItems:"center",
+    },
+    
     innerContainer: {
         borderRadius: Math.round(Dimensions.get('window').width + Dimensions.get('window').height) / 2,
         width: Dimensions.get('window').width * 0.8,
@@ -93,22 +126,64 @@ const styles = StyleSheet.create({
         borderWidth:1,
         borderColor:"white",
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+    
     
     },
+    
     smallBubbleContainer : { 
-        width: 100,
-        height: 100,
-        borderRadius: 100/2,
+        width: "100%",
+        height: "100%",
+        borderRadius: "50%",
         justifyContent: 'center',
         alignItems: 'center', 
     },
 
+    shadowWrapperSmall:{
+        width: 100,
+        height: 100,
+        borderRadius: 100/2,
+        
+        justifyContent: 'center',
+        alignItems: 'center', 
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 5,
+            height: 5,
+        },
+        shadowOpacity: 0.4,
+        shadowRadius: 6,
+        
+        elevation: 11,
+    },
+
     largeBubbleContainer : { 
+        width: "100%",
+        height: "100%",
+        borderRadius: "50%",
+        justifyContent: 'center',
+        alignItems: 'center', 
+        
+    },
+
+    shadowWrapperLarge:{
         width: 140,
         height: 140,
         borderRadius: 140/2,
+        
         justifyContent: 'center',
         alignItems: 'center', 
-    }
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 5,
+            height: 5,
+        },
+        shadowOpacity: 0.4,
+        shadowRadius: 6,
+        
+        elevation: 11,
+    },
+
+
+    
 })
