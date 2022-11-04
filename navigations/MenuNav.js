@@ -1,6 +1,7 @@
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { Text, View, StyleSheet } from 'react-native';
 
 import MapTabNav from './MapTabNav';
 import MapRunningNav from './MapRunningNav';
@@ -20,7 +21,19 @@ const MenuNav = () => {
             <Stack.Navigator>
               <Stack.Screen name="MenuScreen" component={MenuScreen}
               options={{
-                headerShown: false,}}
+                title: (
+                    <View style={styles.headerContainer}>
+                      <Text style={styles.topLineHeader}>
+                        {"EXPERIENTIAL"}
+                      </Text>
+                      <Text style={styles.secondLineHeader}>{"RUNNING"}</Text>
+                    </View>
+                  
+                ),
+                headerTitleAlign:"center",
+                headerLeft: null,
+                headerStyle: {height:120, backgroundColor: "white"},
+              }}
               />
               <Stack.Screen name="StatusScreen" component={StatusScreen}
               options={{
@@ -64,3 +77,28 @@ const MenuNav = () => {
 }
 
 export default MenuNav
+
+const styles = StyleSheet.create({
+
+  headerContainer:{
+
+  },
+
+  topLineHeader:{
+
+    fontSize:20, 
+    color:"#9B77DA", 
+    fontStyle:"Poppins", 
+    fontWeight: 'bold', 
+    textAlign: "center",
+  
+  },
+  secondLineHeader:{
+    fontSize:14, 
+    color:"#9B77DA", 
+    fontStyle:"Poppins", 
+    textAlign: "center",
+    marginBottom: 0
+
+  }
+})
