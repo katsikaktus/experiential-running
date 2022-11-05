@@ -23,11 +23,14 @@ const HistoryMapScreen = () => {
   );
   
   return (
-    <View style={{paddingHorizontal: 12}}>
+    <View style={{}}>
       {DATA.length == 0 ? (
-        <View style={{alignItems: 'center', justifyContent: 'center', height:"100%"}}>
-          <Text style={{fontSize: 24}}>
-            No Activity Found! Let's Start Running!
+        <View style={{alignItems: 'center', justifyContent: 'center', height:"100%", backgroundColor:"#6FA5B1"}}>
+          <Text style={{fontSize: 24, color:"white", marginBottom:18}}>
+            No Activity Found!
+          </Text>
+          <Text style={{fontSize: 36, color:"white",}}>
+            Let's Start Running!
           </Text>
         </View>
       ) : (

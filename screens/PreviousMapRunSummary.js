@@ -8,11 +8,11 @@ import MapView, { Circle, Polyline, Marker } from 'react-native-maps';
 const PreviousMapRunSummary = ({route}) => {
 
     // Title of the specific run that is editable for the user
-    const [title, setTitle] = useState('Morning Run');
+    //const [title, setTitle] = useState('Morning Run');
 
     const props = route.params;
 
-    //console.log("props PreviousMapRunSummary", props)
+    console.log("props PreviousMapRunSummary", props)
 
 
     // Function to change title input
@@ -33,7 +33,7 @@ const PreviousMapRunSummary = ({route}) => {
         style={styles.textInputContainer}
         onPress={() => textInputRef.current.focus()}>
         <TextInput
-          value={title}
+          value={props.timeOfDay + " Run"}
           onChangeText={titleChangeHandler}
           style={styles.textInput}
           ref={textInputRef}

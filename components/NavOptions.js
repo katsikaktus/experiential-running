@@ -144,7 +144,7 @@ const NavOptions = () => {
 
                 <View style = {{position:"absolute",bottom:Dimensions.get('window').width * 0.6, left: 40, bottom: -50, ...styles.shadowWrapperSmall}}>
                     <Pressable style={{backgroundColor: "#A798D5",...styles.smallBubbleContainer}}
-                    onPress={() => navigation.navigate("HistoryPageScreen")}>
+                    onPress={() => navigation.navigate("HistoryMapScreen")}>
                             <Image source={history_page_icon} style={{height:50, width:50, }} />
                     </Pressable>
                 </View>

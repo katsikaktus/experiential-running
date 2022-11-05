@@ -105,7 +105,7 @@ const ActiveMapRunningScreen = ({route}) => {
                     let newDistance;
                     let newTime;
                     if (oldLocation == null || oldTime == null) {
-                        newDistance = '0.0';
+                        newDistance = 0;
                         newTime = 0;
                         oldTime = position.timestamp
                     } else {
@@ -122,22 +122,11 @@ const ActiveMapRunningScreen = ({route}) => {
 
                     totalTime = totalTime + newTime;
                 
-
                     setElapsedTimeValue(secondsToHm(totalTime))
 
-                    
-
-                    if (calculatePace(newDistance, newTime) > 50 || calculatePace(newDistance, newTime) < 50){
-                        setCurrentPace("0:00")
-                    } else {
-                        setAveragePace(pacePresentation(calculatePace(newDistance, newTime)));
-                    }
-
-                  
-                    setAveragePace(pacePresentation(calculatePace(totalDistance, totalTime)));
-                    
-                    
-
+                    setAveragePace(pacePresentation(calculatePace(totalDistance, totalTime)))
+                    setCurrentPace(pacePresentation(calculatePace(newDistance, 1000)))
+             
                     oldTime = position.timestamp
                     oldLocation = position
                     
@@ -303,7 +292,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
        
-        marginBottom: 12,
+        marginBottom: 60,
     },
 
     

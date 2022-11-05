@@ -12,7 +12,7 @@ const MapTabNav = () => {
 
 
   return (
-      <Tab.Navigator style={tw `pt-11`}>
+      <Tab.Navigator>
         <Tab.Screen name="ActiveMapScreen" component={ActiveMapScreen} 
         options={{
           tabBarLabel: "Active",

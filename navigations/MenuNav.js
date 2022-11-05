@@ -1,4 +1,4 @@
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { Text, View, StyleSheet } from 'react-native';
@@ -12,9 +12,12 @@ import {Pressable} from 'react-native';
 import GhostRunScreen from '../screens/GhostRunScreen';
 import SightseeingRunScreen from '../screens/SightseeingRunScreen';
 import MenuScreen from '../screens/MenuScreen';
+import HistoryMapScreen from '../screens/HistoryMapScreen';
+
 
 const MenuNav = () => {
     const Stack = createStackNavigator();
+    const navigate = useNavigation();
 
     return (
           <SafeAreaProvider>
@@ -32,7 +35,7 @@ const MenuNav = () => {
                 ),
                 headerTitleAlign:"center",
                 headerLeft: null,
-                headerStyle: {height:120, backgroundColor: "white"},
+                headerStyle: {height:120, backgroundColor: "white", borderBottomColor:"#C0C0C0", borderBottomWidth:1},
               }}
               />
               <Stack.Screen name="StatusScreen" component={StatusScreen}
@@ -40,12 +43,36 @@ const MenuNav = () => {
                 headerShown: false,}}
               />
               <Stack.Screen name="MapTabNav" component={MapTabNav}
-              options={{
-                headerShown: false,}}
+               options={{
+                title: (
+                    <View style={styles.headerContainer}>
+                      <Text style={styles.topLineHeader}>
+                        {"EXPERIENTIAL"}
+                      </Text>
+                      <Text style={styles.secondLineHeader}>{"RUNNING"}</Text>
+                    </View>
+                  
+                ),
+                headerTitleAlign:"center",
+                headerLeft: null,
+                headerStyle: {height:120, backgroundColor: "white", borderBottomColor:"#C0C0C0", borderBottomWidth:1},
+              }}
               />
               <Stack.Screen name="MapRunningNav" component={MapRunningNav}
               options={{
-                headerShown: false,}}
+                title: (
+                    <View style={styles.headerContainer}>
+                      <Text style={styles.topLineHeader}>
+                        {"EXPERIENTIAL"}
+                      </Text>
+                      <Text style={styles.secondLineHeader}>{"RUNNING"}</Text>
+                    </View>
+                  
+                ),
+                headerTitleAlign:"center",
+                headerLeft: null,
+                headerStyle: {height:120, backgroundColor: "white", borderBottomColor:"#C0C0C0", borderBottomWidth:1},
+              }}
               />
               
               <Stack.Screen name="PreviousMapRunSummary" component={PreviousMapRunSummary}
@@ -69,8 +96,25 @@ const MenuNav = () => {
             options={{
               headerTitle: "Sightseeing Run"
             }}/>
+
+            <Stack.Screen name="HistoryMapScreen" component={HistoryMapScreen}
+            options={{
+              title: (
+
+                  <View style={styles.headerContainer}>
+                    <Text style={styles.topLineHeader}>
+                      {"EXPERIENTIAL"}
+                    </Text>
+                    <Text style={styles.secondLineHeader}>{"RUNNING"}</Text>
+                  </View>
+              ),
+              headerTitleAlign:"center",
+              headerLeft: null,
+              headerStyle: {height:120, backgroundColor: "white", borderBottomColor:"#C0C0C0", borderBottomWidth:1},
+            }}/>
   
             </Stack.Navigator>
+
   
           </SafeAreaProvider>
     )
@@ -100,5 +144,11 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 0
 
-  }
+  },
+  menuContainer: {
+  
+    color: "#9B77DA",
+    
+    
+  },
 })

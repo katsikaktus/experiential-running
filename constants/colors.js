@@ -24,7 +24,7 @@ export default colors = {
     pauseButton: "#F5A17D",
 
     mapPointerCircle: '#9B77DA',
-    mapDrawTrack: '#F39DE5',
+    mapDrawTrack: '#4E6B9F',
 
     mapPointerPin: '#9B77DA',
     
