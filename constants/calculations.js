@@ -135,9 +135,16 @@ export const getDayName = () => {
     } else {
       const paceMins = Math.floor(pace);
       const paceSecs = Math.floor((pace % 1) * 60);
-      pace = paceMins + ":" + paceSecs;
 
-      console.log("check non zero", paceMins, paceSecs, pace)
+
+      if (paceSecs < 10 ) {
+        pace = paceMins + ":0" + paceSecs
+        console.log("pace 5", pace)
+      } else {
+        pace = paceMins + ":" + paceSecs
+        console.log("pace 6", pace)
+        
+      }
       return pace;
     
     }

@@ -59,19 +59,8 @@ const MenuNav = () => {
               }}
               />
               <Stack.Screen name="MapRunningNav" component={MapRunningNav}
-              options={{
-                title: (
-                    <View style={styles.headerContainer}>
-                      <Text style={styles.topLineHeader}>
-                        {"EXPERIENTIAL"}
-                      </Text>
-                      <Text style={styles.secondLineHeader}>{"RUNNING"}</Text>
-                    </View>
-                  
-                ),
-                headerTitleAlign:"center",
-                headerLeft: null,
-                headerStyle: {height:120, backgroundColor: "white", borderBottomColor:"#C0C0C0", borderBottomWidth:1},
+              options={{headerShown: false,
+                
               }}
               />
               
