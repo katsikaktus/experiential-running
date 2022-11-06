@@ -8,6 +8,8 @@ export default colors = {
     startRunButton: '#9B77DA',
     sightseeingButton: "#6FA5B1",
     ghostRunInitialButton: "#F39DE5",
+    ghostRunButton: "#F5A17D",
+    
 
     toggleButtonBorder: '#fff',
     toggleButtonBackground: '#fff',

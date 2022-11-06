@@ -13,6 +13,7 @@ import GhostRunScreen from '../screens/GhostRunScreen';
 import SightseeingRunScreen from '../screens/SightseeingRunScreen';
 import MenuScreen from '../screens/MenuScreen';
 import HistoryMapScreen from '../screens/HistoryMapScreen';
+import GhostRunningNav from './GhostRunningNav';
 
 
 const MenuNav = () => {
@@ -77,9 +78,12 @@ const MenuNav = () => {
               />
   
             <Stack.Screen name="GhostRunScreen" component={GhostRunScreen}
-            options={{
-              headerTitle: "Ghost Run"
-            }}/>
+            options={{headerShown: false}}/>
+            <Stack.Screen name="GhostRunningNav" component={GhostRunningNav}
+            options={{headerShown: false,
+              
+            }}
+            />
   
             <Stack.Screen name="SightseeingRunScreen" component={SightseeingRunScreen}
             options={{
