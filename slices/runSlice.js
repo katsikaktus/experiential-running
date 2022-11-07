@@ -54,6 +54,10 @@ export const runSlice = createSlice({
       state.savedPath = initialState.savedPath;
     },
 
+    clearCurrentRun: (state, action) => {
+      state.currentRun = initialState.currentRun;
+    },
+
     
   
     
@@ -61,7 +65,7 @@ export const runSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { setLocation, saveRunToDatabase, setCurrentRun, saveCurrentPath, clearCurrentPath } = 
+export const { setLocation, saveRunToDatabase, setCurrentRun, saveCurrentPath, clearCurrentPath, clearCurrentRun } = 
 runSlice.actions;
 
 // Selectors - pull information from the data layout

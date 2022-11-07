@@ -43,7 +43,6 @@ const GhostRunningScreen = () => {
     const saveCoords = (position) => {
         dispatch(
             saveCurrentPath({
-                
                 id: new Date().toLocaleDateString(),
                 timestamp: position?.timestamp || 0,
                 latitude: position?.coords.latitude || 59.32487,
@@ -115,6 +114,7 @@ const GhostRunningScreen = () => {
                         );
                         newTime = position.timestamp - oldTime
                     }
+
                     totalDistance = totalDistance + parseFloat(newDistance);
                     setCoveredDistanceValue(totalDistance.toFixed(2));
 

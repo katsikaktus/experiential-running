@@ -1,5 +1,7 @@
 import { Pressable, StyleSheet, Image, Text, View, TextInput, KeyboardAvoidingView} from 'react-native'
 import React, { useState, useRef, useEffect } from 'react'
+import {useSelector} from 'react-redux';
+
 
 import colors from '../constants/colors'
 import { validateInput } from '../constants/distanceInputValidation'
@@ -9,14 +11,17 @@ import { useDispatch } from 'react-redux';
 
 import MapView, {Circle, Marker} from 'react-native-maps';
 import MapLocation from '../components/MapLocation';
-import { setLocation, setCurrentRun, saveCurrentPath, clearCurrentPath } from '../slices/runSlice';
+import { setLocation, setCurrentRun, clearCurrentRun, clearCurrentPath } from '../slices/runSlice';
 import maps_page_icon from "../assets/maps_page_icon.png"
 import tower_icon from "../assets/tower_icon.png"
 import { current } from '@reduxjs/toolkit';
 import MapGhostRun from '../components/MapGhostRun';
 
+
+
 const GhostRunScreen = () => {
   // Ref for interval to update the location
+
   const interval = useRef(null);
 
   // Initialize navigation hook
@@ -51,6 +56,15 @@ const GhostRunScreen = () => {
 
     dispatch(
       clearCurrentPath({
+        savedPath: []
+      }),
+
+    )
+
+    dispatch(
+      clearCurrentRun({
+        distance: 0,
+        time: 0,
         savedPath: []
       }),
 

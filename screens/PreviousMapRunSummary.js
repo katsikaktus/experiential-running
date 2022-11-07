@@ -12,7 +12,7 @@ const PreviousMapRunSummary = ({route}) => {
 
     const props = route.params;
 
-    console.log("props PreviousMapRunSummary", props)
+    console.log("props PreviousMapRunSummary", props.savedPath)
 
 
     // Function to change title input

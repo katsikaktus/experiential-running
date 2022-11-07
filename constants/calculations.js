@@ -71,26 +71,26 @@ export const getDayName = () => {
   // function to calculate pace
   export const calculatePace = (dist, delta_time) => {
 
-    console.log("input dist", dist)
-    console.log("input delta_time", delta_time)
+    //console.log("input dist", dist)
+    //console.log("input delta_time", delta_time)
 
     const minutes = Number(delta_time/60000);
 
-    console.log("input minute", minutes)
+    //console.log("input minute", minutes)
 
 
     if ((dist <= 0) || (delta_time <= 0)){
-      console.log("pace 1")
+      //console.log("pace 1")
       return 0;
     } else {
       const pace = minutes/dist
 
-      console.log("pace 2", pace)
+      //console.log("pace 2", pace)
       if (pace > 20 ) {
-        console.log("pace 3", pace)
+        //console.log("pace 3", pace)
         return 0
       } else {
-        console.log("pace 4", pace)
+        //console.log("pace 4", pace)
         return pace
       }
        
@@ -129,7 +129,7 @@ export const getDayName = () => {
   // Function to show pace value to user
   export const pacePresentation = pace => {
     if (pace == 0) {
-      console.log("check zero pace", pace)
+      //console.log("check zero pace", pace)
       return '0:00';
       
     } else {
@@ -139,10 +139,10 @@ export const getDayName = () => {
 
       if (paceSecs < 10 ) {
         pace = paceMins + ":0" + paceSecs
-        console.log("pace 5", pace)
+        //console.log("pace 5", pace)
       } else {
         pace = paceMins + ":" + paceSecs
-        console.log("pace 6", pace)
+        //console.log("pace 6", pace)
         
       }
       return pace;
