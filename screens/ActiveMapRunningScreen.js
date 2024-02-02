@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, KeyboardAvoidingView, Pressable, Alert } from 'react-native'
+import { Platform, StyleSheet, Text, View, KeyboardAvoidingView, Pressable, Alert } from 'react-native'
 import React, {useCallback, useEffect, useRef, useState}from 'react'
 import {useNavigation} from '@react-navigation/native';
 import * as Location from 'expo-location';

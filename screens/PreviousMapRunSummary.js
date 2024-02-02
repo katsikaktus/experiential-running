@@ -7,21 +7,24 @@ import MapView, { Circle, Polyline, Marker } from 'react-native-maps';
 
 const PreviousMapRunSummary = ({route}) => {
 
-    // Title of the specific run that is editable for the user
-    //const [title, setTitle] = useState('Morning Run');
+  const props = route.params;
+  console.log("props PreviousMapRunSummary", props)
 
-    const props = route.params;
+  ;
 
-    console.log("props PreviousMapRunSummary", props)
+  // State for the title of the run
+  const [title, setTitle] = useState(props.timeOfDay + " Run");
 
 
-    // Function to change title input
-    const titleChangeHandler = input => {
-      setTitle(input);
-    };
+  const hasPathData = props.savedPath && props.savedPath.length > 0;
+  const initialLatitude = hasPathData ? props.savedPath[0].latitude : 59.32487; // default latitude
+  const initialLongitude = hasPathData ? props.savedPath[0].longitude : 18.07221; // default longitude
 
-    const textInputRef = useRef();
+  const titleChangeHandler = input => {
+    setTitle(input);
+  };
 
+  const textInputRef = useRef();
 
 
   return (
@@ -33,7 +36,7 @@ const PreviousMapRunSummary = ({route}) => {
         style={styles.textInputContainer}
         onPress={() => textInputRef.current.focus()}>
         <TextInput
-          value={props.timeOfDay + " Run"}
+          value={title}
           onChangeText={titleChangeHandler}
           style={styles.textInput}
           ref={textInputRef}
@@ -41,38 +44,31 @@ const PreviousMapRunSummary = ({route}) => {
         <SimpleLineIcons name="pencil" size={20} />
       </Pressable>
       <View style={styles.container}>
-        <MapView 
-            //ref={watchId}
+        {hasPathData && (
+          <MapView
             initialRegion={{
-                latitude:props.savedPath[0].latitude || 59.32487,
-                longitude:props.savedPath[0].longitude || 18.07221,
-                latitudeDelta: 0.0922,
-                longitudeDelta: 0.0421,
+              latitude: initialLatitude,
+              longitude: initialLongitude,
+              latitudeDelta: 0.0922,
+              longitudeDelta: 0.0421,
             }}
             minZoomLevel={15}
-            style={{flex:1, opacity: 1}}>
-            {props.savedPath.map((host, i) => {
-                if (host.latitude && host.longitude) {
-                return(<Circle
-                    key={i}
-                    center={{
-                    latitude: host.latitude,
-                    longitude: host.longitude
-                    }}
-                    title={host.id}
-                    radius={5}
-                    fillColor= {colors.mapDrawTrack}
-                    strokeColor= {colors.mapDrawTrack}
-                    
-                />)
-                }
-            })}
-                    
-        </MapView>
-  
-    </View>
-
-      
+            style={{ flex: 1, opacity: 1 }}>
+            {props.savedPath.map((host, i) => (
+              <Circle
+                key={i}
+                center={{
+                  latitude: host.latitude,
+                  longitude: host.longitude
+                }}
+                radius={5}
+                fillColor={colors.mapDrawTrack}
+                strokeColor={colors.mapDrawTrack}
+              />
+            ))}
+          </MapView>
+        )}
+      </View>
     </Pressable>
   )
 }

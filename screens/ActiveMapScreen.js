@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Image, Text, View, TextInput, KeyboardAvoidingView} from 'react-native'
+import { Platform, Pressable, StyleSheet, Image, Text, View, TextInput, KeyboardAvoidingView} from 'react-native'
 import React, { useState, useRef, useEffect } from 'react'
 
 import colors from '../constants/colors'

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, KeyboardAvoidingView, Pressable, Alert } from 'react-native'
+import { Platform, StyleSheet, Text, View, KeyboardAvoidingView, Pressable, Alert } from 'react-native'
 import React from 'react'
 import MapRunning from '../components/MapRunning';
 
